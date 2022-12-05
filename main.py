@@ -33,5 +33,5 @@ async def load():
         if filename.endswith(".py"):
             await client.load_extension(f"cogs.{filename[:-3]}")
 load()
-
+#test
 client.run("MTA0OTQwMzI5ODUwMDgzNzM3Nw.Gfpw4n.zf5wnDb4yCNLNMKX2hBEVvai1-RNunl5B_WAMA")
