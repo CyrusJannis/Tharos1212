@@ -1,0 +1,18 @@
+{
+    "1": {
+        "f": "You walk 100 miles south, 100 miles east and then 100 miles north. After this path, you are back at your starting point. Where are you?",
+        "a": "doesn't matter",
+        "b": "south pole",
+        "c": "equator line",
+        "d": "north pole",
+        "right": "d"
+    },
+    "2": {
+        "f": "In a race, you overtake the second place. What place do you have then?",
+        "a": "1",
+        "b": "2",
+        "c": "3",
+        "d": "4",
+        "right": "b"
+    }
+}
