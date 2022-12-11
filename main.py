@@ -7,7 +7,7 @@ from nextcord.utils import get
 import random
 import os
 import discord.utils
-
+import deepl
 client = commands.Bot(command_prefix="!", intents=nextcord.Intents.all())
 
 @client.event
@@ -65,11 +65,27 @@ async def on_interaction(interaction):
         del data[str(message)]
         with open("./cogs/db/delete_messages.json", "w") as f:
             json.dump(data, f, indent=4)
+    elif interaction.data["custom_id"] == "expertaccept":
+        id = interaction.message.content
+        user = client.get_user(int(id))
+        role = discord.utils.get(client.get_guild(1004869688251134033).roles, id=1004884670745411595)
+        await user.add_roles(role)
+        role = discord.utils.get(client.get_guild(1004869688251134033).roles, id=1005230473599008898)
+        await user.remove_roles(role)
+        await user.send("You are now successfully registered with Tharos as an Expert")
+    elif interaction.data["custom_id"] == "expertdeny":
+        id = interaction.message.content
+        with open("./cogs/db/experts.json", "r") as f:
+            data = json.load(f)
+        del data[int(id)]
+        with open("./cogs/db/experts.json", "w") as f:
+            json.dump(data, f, indent=4)
+        user = client.get_user(int(id))
+        await user.send("Your registration as an Expert has been rejected. You can try again at any time")
 
 @client.event
 async def on_message(message):
     await client.process_commands(message)
-
 
 
 @client.command(pass_context=True)
@@ -124,12 +140,11 @@ async def test(ctx):
     await ctx.send(f"```{erg2}```")
 
 @client.command()
-async def test2(ctx):
-    liste = []
-    for i in range(70):
-        for member in ctx.guild.members:
-            liste.append(member.mention)
-        await ctx.send(''.join(liste))
+async def translate(ctx, lang, *, prompt):
+    auth_key = "68aec437-4999-8215-be80-d8cb28fe54b3:fx"
+    translator = deepl.Translator(auth_key)
+    result = translator.translate_text(prompt, target_lang=lang)
+    await ctx.send(result.text)
 
 
 
@@ -148,4 +163,4 @@ for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         client.load_extension(f"cogs.{filename[:-3]}")
 
-client.run("MTA0OTQwMzI5ODUwMDgzNzM3Nw.Gsv9zu.AxLpf_FuQh6xCh_Q6Cxz4Vi3rUYQIugj6UoQr0")
+client.run("MTA0OTQwMzI5ODUwMDgzNzM3Nw.G4V1Np.FoQuszjFjxjFghoAQQmStT4Q8Mlm9-2hTSi7ro")
