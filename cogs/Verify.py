@@ -3,7 +3,6 @@ from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands
 import json
 import asyncio
-from nextcord.utils import get
 import random
 import os
 import discord.utils
@@ -24,6 +23,7 @@ class Verify(commands.Cog):
         view = View(timeout=None)
         view.add_item(button1)
         await ctx.send("Click on the button below to verify yourself", view=view)
+
 
 def setup(client):
     client.add_cog(Verify(client))

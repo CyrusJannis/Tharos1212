@@ -1,130 +1,94 @@
 {
     "1l": {
-        "f": "2 + 2 * 2",
-        "right": "6"
+        "f": "How many edges does a cube have?",
+        "right": ["12", "twelve", "Twelve"]
     },
     "2l": {
-        "f": "5 + 5 * 5",
-        "right": "30"
+        "f": "What is the interior angle sum of a triangle?",
+        "right": ["180°", "180 degrees", "hundred and eighy", "180", "Hundred and eighy", "one hundred and eighty degrees", "One hundred and eighty degrees", "hundred eighty degrees", "Hundred  eighty degrees", "hundred eighy", "Hundred eighy", "One hundred eighty", "one hundred eighy", "one hundred eighty degrees", "One hundred eighty degrees"]
     },
     "3l": {
-        "f": "4 + 4 * 4",
-        "right": "20"
+        "f": "Where on earth is the only way south?",
+        "right": ["Northpole", "northpole", "at the northpole", "At the northpole", "geographical northpole", "Geographical Northpole", "at the geographical nortpole", "At the geographical nortpole"]
     },
     "4l": {
-        "f": "3 + 3 * 3",
-        "right": "12"
+        "f": "Two and a half bars have how many ends?",
+        "right": ["6", "six", "Six"]
     },
     "5l": {
-        "f": "6 + 6 * 6",
-        "right": "42"
+        "f": "Name a number which is equal to it's square.",
+        "right": ["1", "one", "One", "0", "zero", "Zero", "1 and 0", "one and zero", "One and zero", "One and Zero", "1,0", "1, 0", "one,zero", "one, zero", "One, zero", "One, Zero"]
     },
     "6l": {
-        "f": "7 + 7 * 7",
-        "right": "56"
+        "f": "How many years is a decade?",
+        "right": ["10", "ten", "Ten"]
     },
     "7l": {
-        "f": "8 + 8 * 8",
-        "right": "72"
+        "f": "Name a country that beginns with 'P'.",
+        "right": ["Pakistan", "Palau", "Panama", "Papal States", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Piedmont-Sardinia", "Poland", "Portugal", "pakistan", "palau", "panama", "papal states", "Papal states", "papal States", "papua new guinea", "papua new Guinea", "Papua new Guinea", "paraguay", "peru", "philippines", "piedmont-sardinia", "Piedmont-Sardinia", "poland", "portugal"]
     },
     "8l": {
-        "f": "9 + 9 * 9",
-        "right": "90"
+        "f": "Calculate: 2 + 2 x 2",
+        "right": ["6", "six", "Six"]
     },
     "9l": {
-        "f": "10 + 10 * 10",
-        "right": "110"
+        "f": "Calculate: 2 x (3 + 4)",
+        "right": ["14", "fourteen", "Fourteen"]
     },
     "10l": {
-        "f": "11 + 11 * 11",
-        "right": "132"
+        "f": "Calculate: 8 - 16",
+        "right": ["-8", "- 8", "minus 8", "minus eight", "Minus eight", "Minus Eight"]
     },
     "11l": {
-        "f": "12 + 12 * 12",
-        "right": "156"
+        "f": "Calculate: 1 - 2 + 3 - 4 + ... - 100",
+        "right": ["-50", "- 50", "minus 50", "minus fifty", "Minus fifty", "Minus Fifty"]
     },
     "12l": {
-        "f": "3 + 3",
-        "right": "6"
+        "f": "Calculate: 1/2 + 1/4 + 1/8 + 1/16 + ...",
+        "right": ["1", "one", "One"]
     },
     "13l": {
-        "f": "6 * 6",
-        "right": "36"
+        "f": "Calculate: 1/2 + 1/3 + 1/6",
+        "right": ["1", "one", "One"]
     },
     "14l": {
-        "f": "7 * 7",
-        "right": "49"
+        "f": "Name the next number: 1-2-4-8-",
+        "right": ["16", "sixteen", "Sixteen"]
     },
     "15l": {
-        "f": "8 * 8",
-        "right": "64"
+        "f": "Name the next number: 1-4-9-16-25-",
+        "right": ["36", "thirty-six", "Thirty-six"]
     },
     "16l": {
-        "f": "9 * 9",
-        "right": "81"
+        "f": "Name the next number: 4-3-6-5-10-9-",
+        "right": ["18", "eighteen", "Eighteen"]
+    },
+    "17l": {
+        "f": "Name the next number: 4-3-3-4-3-3-",
+        "right": ["4"]
+    },
+    "18l": {
+        "f": "Name the next number: 1-1-2-3-5-8-13-",
+        "right": ["21", "twenty-one", "Twenty-one", "twentyone", "Twentyone"]
     },
     "1r": {
-        "f": "2 + 2 * 2",
-        "right": "6"
+        "f": "Which command do you use to send an invoice?",
+        "right": ["/pay"]
     },
     "2r": {
-        "f": "5 + 5 * 5",
-        "right": "30"
+        "f": "Which command do you use to get your money?",
+        "right": ["/happy"]
     },
     "3r": {
-        "f": "4 + 4 * 4",
-        "right": "20"
+        "f": "10+1",
+        "right": ["11", "11"]
     },
     "4r": {
-        "f": "3 + 3 * 3",
-        "right": "12"
+        "f": "1+2",
+        "right": ["3"]
     },
     "5r": {
-        "f": "6 + 6 * 6",
-        "right": "42"
-    },
-    "6r": {
-        "f": "7 + 7 * 7",
-        "right": "56"
-    },
-    "7r": {
-        "f": "8 + 8 * 8",
-        "right": "72"
-    },
-    "8r": {
-        "f": "9 + 9 * 9",
-        "right": "90"
-    },
-    "9r": {
-        "f": "10 + 10 * 10",
-        "right": "110"
-    },
-    "10r": {
-        "f": "11 + 11 * 11",
-        "right": "132"
-    },
-    "11r": {
-        "f": "12 + 12 * 12",
-        "right": "156"
-    },
-    "12r": {
-        "f": "3 + 3",
-        "right": "6"
-    },
-    "13r": {
-        "f": "6 * 6",
-        "right": "36"
-    },
-    "14r": {
-        "f": "7 * 7",
-        "right": "49"
-    },
-    "15r": {
-        "f": "8 * 8",
-        "right": "64"
-    },
-    "16r": {
-        "f": "9 * 9",
-        "right": "81"
-    }
+        "f": "2+3",
+        "right": ["5"]
+}
 }

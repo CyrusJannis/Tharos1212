@@ -3,7 +3,6 @@ from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands
 import json
 import asyncio
-from nextcord.utils import get
 import random
 import os
 import discord.utils
@@ -60,14 +59,15 @@ class Postajob(commands.Cog):
                 "other": 1009849240517869568
             }
             channel = self.bot.get_channel(what[select.values[0]])
-            embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$", color=nextcord.Color.green())
+            embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$", color=0x0BBAB5)
 
             #  ---   Contact Button   ---
             button1 = Button(label="Contact", style=nextcord.ButtonStyle.green, custom_id="jocontact")
+            button1.callback = None
             view2 = View(timeout=None)
             view2.add_item(button1)
             msg2 = await channel.send(embed=embed, view=view2)
-            button2 = Button(label="Delete", style=nextcord.ButtonStyle.green, custom_id="jodelete", disabled=False)
+            button2 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jodelete", disabled=False)
             view3 = View(timeout=None)
             view3.add_item(button2)
             msg = await interaction.user.send(f"You have made the following job posting:\n\n{tit.value}\n{desc.value}\n\nYou can delete this job at any time.", view=view3)
@@ -76,8 +76,13 @@ class Postajob(commands.Cog):
             data[msg.id] = {}
             data[msg.id]["1"] = msg2.id
             data[msg.id]["2"] = channel.id
-            data[msg.id]["3"] = "no"
+            data[msg.id]["3"] = "no"           
             with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "w") as f:
+                json.dump(data, f, indent=4)
+            with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "r") as f:
+                data = json.load(f)
+            data[str(msg2.id)] = str(interaction.user.id)
+            with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
                 json.dump(data, f, indent=4)
         Modal1.callback = modal_callback
         async def select_callback(interaction):
