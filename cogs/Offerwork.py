@@ -3,7 +3,6 @@ from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands
 import json
 import asyncio
-from nextcord.utils import get
 import random
 import os
 import discord.utils
@@ -59,11 +58,31 @@ class Offerwork(commands.Cog):
                 "aud": 1009848466568138862,
                 "other": 1009848764925759632
             }
+            with open("./cogs/db/experts.json", "r") as f:
+                data = json.load(f)
+            rating = data[str(interaction.user.id)]["starrating"]
+            if rating == "no reviews":
+                starrating = "no reviews"
+            else:
+                rounded_rating = round(rating)
+                if rounded_rating == 0:
+                    starrating = "zero stars"
+                elif rounded_rating == 1:
+                        starrating = "⭐"
+                elif rounded_rating == 2:
+                        starrating = "⭐⭐"
+                elif rounded_rating == 3:
+                        starrating = "⭐⭐⭐"
+                elif rounded_rating == 4:
+                        starrating = "⭐⭐⭐⭐"
+                else:
+                    starrating = "⭐⭐⭐⭐⭐"
             channel = self.bot.get_channel(what[select.values[0]])
-            embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$", color=nextcord.Color.green())
+            embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$\n\nStar rating: {starrating}", color=0x0BBAB5)
 
             #  ---   Contact Button   ---
             button1 = Button(label="Contact", style=nextcord.ButtonStyle.green, custom_id="owcontact")
+            button1.callback = None
             view2 = View(timeout=None)
             view2.add_item(button1)
             msg2 = await channel.send(embed=embed, view=view2)
@@ -78,6 +97,11 @@ class Offerwork(commands.Cog):
             data[msg.id]["2"] = channel.id
             data[msg.id]["3"] = "no"
             with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "w") as f:
+                json.dump(data, f, indent=4)
+            with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "r") as f:
+                data = json.load(f)
+            data[str(msg2.id)] = str(interaction.user.id)
+            with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
                 json.dump(data, f, indent=4)
         Modal1.callback = modal_callback
         async def select_callback(interaction):

@@ -1,3 +1,26 @@
 {
-    "1":"2"
+    "990380208383221760": {
+        "firstname": "Jannis",
+        "lastname": "Longschlong",
+        "dateofbirth": "28.07.2002",
+        "jobsdone": 0,
+        "reviews": 0,
+        "starrating": "no reviews"
+    },
+    "1036029240631644260": {
+        "firstname": "Owomuvuevuew",
+        "lastname": "Eyetuenwewe",
+        "dateofbirth": "11.11.1111",
+        "jobsdone": 0,
+        "reviews": 0,
+        "starrating": "no reviews"
+    },
+    "798143180758974465": {
+        "firstname": "Daniel",
+        "lastname": "Dietrich",
+        "dateofbirth": "11.11.1111",
+        "jobsdone": 5,
+        "reviews": 5,
+        "starrating": 4.67
+    }
 }
