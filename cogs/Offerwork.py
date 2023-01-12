@@ -86,10 +86,11 @@ class Offerwork(commands.Cog):
             view2 = View(timeout=None)
             view2.add_item(button1)
             msg2 = await channel.send(embed=embed, view=view2)
-            button2 = Button(label="Delete", style=nextcord.ButtonStyle.green, custom_id="jodelete", disabled=False)
+            button2 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jodelete", disabled=False)
             view3 = View(timeout=None)
             view3.add_item(button2)
-            msg = await interaction.user.send(f"You have made the following work offer:\n\n{tit.value}\n{desc.value}\n\nYou can delete this offer at any time.", view=view3)
+            embed = nextcord.Embed(description=f"You have made the following work offer:\n\n{tit.value}\n{desc.value}\n\nYou can delete this offer at any time.", color=0x0BBAB5)
+            msg = await interaction.user.send(embed=embed, view=view3)
             with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "r") as f:
                 data = json.load(f)
             data[msg.id] = {}
