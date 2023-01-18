@@ -31,22 +31,19 @@ class Pay(commands.Cog):
                 button.callback = None
                 view=View(timeout=None)
                 view.add_item(button)
-                embed = nextcord.Embed(description="Please enter the amount you want the customer to pay for your work. You will receive ((())) of the amount. Then enter the maximum time the job will take. Please note that after this period the customer can ask for their money back. Send /happy before this time passed. PORNO LALALALALALALLA", color=0x0BBAB5)
+                embed = nextcord.Embed(description="Please enter the amount you want the customer to pay for your work. You will receive ((())) of the amount. Then enter the maximum time the job will take. Please note that after this period the customer can ask for their money back. Send !happy before this time passed.", color=0x0BBAB5)
                 await ctx.channel.send(embed=embed, view=view)
             else:
                 if status == "c":
-                    embed=nextcord.Embed(description="You cannot use /pay twice in a row.", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="You can not use !pay twice in a row.", color=0x0BBAB5)
                     await ctx.channel.send(embed=embed)
                 elif status.startswith("c"):
                     embed=nextcord.Embed(description="Please complete the previous project first.", color=0x0BBAB5)
                     await ctx.channel.send(embed=embed)
                 elif status.startswith("a"):
-                    embed=nextcord.Embed(description="You must first complete the previous project by sending /happy and receiving your payment.", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="You must first complete the previous project by sending !happy and receiving your payment.", color=0x0BBAB5)
                     await ctx.channel.send(embed=embed)#
                 else: print(1)
-        else:
-            interaction.response.defer()
-
 
 def setup(client):
     client.add_cog(Pay(client))
