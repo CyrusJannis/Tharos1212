@@ -3,6 +3,7 @@ from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands, tasks
 import json
 import paypalrestsdk
+from paypalrestsdk import Payout, ResourceNotFound
 paypalrestsdk.configure({
     "mode": "sandbox", # sandbox or live
     "client_id": "AQLta8aNGOi8dfCVbjUd9Y82xS5PdJvzOIH1gzZsxITUM3iv4bun0REqLNDFtB9r1F9gYp7RGp5lkT2G",
@@ -551,7 +552,7 @@ async def on_interaction(interaction):
                 "amount": {
                     "total": int(price),
                     "currency": "USD"},
-                "description": "This invoice was commissioned by a  THAROS Expert"}]})
+                "description": "This invoice was commissioned by a THAROS Expert"}]})
         if payment.create():
                 print("Payment created successfully")
         else:
@@ -599,8 +600,10 @@ async def on_interaction(interaction):
         amount1 = data[str(ecid)]["amount"]
         i = interaction
         async def payment_worked():
+            await interaction.message.delete()
             embed = nextcord.Embed(description=f"Thank you for your payment. If the Expert does not get back to you within {time1} days you can report them and get your money back.", color=0x0BBAB5)
             btn = Button(label="Report the Expert", style=nextcord.ButtonStyle.blurple, custom_id="report-expert")
+            btn.callback = None
             view = View(timeout=None)
             view.add_item(btn)
             await i.channel.send(embed=embed, view=view)
@@ -695,23 +698,86 @@ async def on_interaction(interaction):
             now = datetime.now()
             difference = now - then
             duration2 = difference.total_seconds()
-            total_days = duration2 (60 * 60 * 24)
+            total_days = duration2 / 86400
             with open("./cogs/db/trash1.json", "r") as f:
                 data = json.load(f)
             time2 = data[str(ecid)]["time"]
             if total_days >= int(time2):
-                button=Button(label="Enter",style=nextcord.ButtonStyle.blurple)
+                await interaction.message.delete()
+                button=Button(label="Enter", style=nextcord.ButtonStyle.blurple, custom_id="money-back")
+                button.callback = None
                 view=View(timeout=None)
                 view.add_item(button)
-                embed=nextcord.Embed(description="Please enter the email address associated with your PayPayl account to get your money back.",color=0x0BBAB5)
+                embed=nextcord.Embed(description="Please enter the email address associated with your PayPal account to get your money back.", color=0x0BBAB5)
                 await interaction.channel.send(embed=embed, view=view)
             else:
                 embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert. Please contact the support team.", color=0x0BBAB5)
-                await interaction.response.send_message(embed=embed)
+                await interaction.channel.send(embed=embed)
             print(duration2)
         else:
             embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert. Please contact the support team.", color=0x0BBAB5)
-            await interaction.response.send_message(embed=embed)
+            await interaction.channel.send(embed=embed)
+    elif interaction.data["custom_id"] == "money-back":
+        msg = interaction.message
+        Modal1 = Modal(
+            custom_id="money-back-modal",
+            title="Money refund",
+            timeout=None,
+            auto_defer=True
+        )
+        email = nextcord.ui.TextInput(label="Enter your PayPal E-Mail Address", min_length=4, max_length=50, required=True, style=nextcord.TextInputStyle.short)
+        Modal1.add_item(email)
+        async def modal_callback(interaction):
+            print(msg.content)
+            await msg.delete()
+            with open("./cogs/db/chats.json", "r") as f:
+                data = json.load(f)
+            ecid = data[str(interaction.channel.id)]["connect"]
+            with open("./cogs/db/payments.json", "r") as f:
+                data = json.load(f)
+            n = data[str(ecid)]["n"]
+            amount = data[str(ecid)][str(n)]["amount"]
+            new_amount = int(amount) * 94 / 100 - 0.5
+            amount2 = round(new_amount, 2)
+            print(new_amount)
+            print(email.value)
+            payout = Payout({
+                "sender_batch_header": {
+                    "sender_batch_id": f"{ecid}{n}",
+                    "email_subject": "You received a payment"
+                },
+                "items": [
+                    {
+                        "recipient_type": "EMAIL",
+                        "amount": {
+                            "value": amount2,
+                            "currency": "USD"
+                        },
+                        "receiver": email.value,
+                        "note": "Thank you for your trust in THAROS.",
+                        "sender_item_id": "item_1"
+                    }
+                ]
+            })
+
+            if payout.create():
+                button=Button(label="Delete", style=nextcord.ButtonStyle.red)
+                button.callback = None
+                view=View(timeout=None)
+                view.add_item(button)
+                embed = nextcord.Embed(description="You received your money back. You can close this chat by clicking on delete.", color=0x0BBAB5)
+                await interaction.channel.send(embed=embed, view=view)
+            else:
+                button=Button(label="Enter", style=nextcord.ButtonStyle.blurple, custom_id="money-back")
+                button.callback = None
+                view=View(timeout=None)
+                view.add_item(button)
+                embed=nextcord.Embed(description="The payment did not work. Please enter a valid email address which is associated with your PayPal account.", color=0x0BBAB5)
+                await interaction.channel.send(embed=embed, view=view)
+        Modal1.callback = modal_callback
+        await interaction.response.send_modal(modal=Modal1)
+
+
         
 
 
