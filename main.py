@@ -602,7 +602,7 @@ async def on_interaction(interaction):
         async def payment_worked():
             await interaction.message.delete()
             embed = nextcord.Embed(description=f"Thank you for your payment. If the Expert does not get back to you within {time1} days you can report them and get your money back.", color=0x0BBAB5)
-            btn = Button(label="Report the Expert", style=nextcord.ButtonStyle.blurple, custom_id="report-expert")
+            btn = Button(label="Report the Expert", style=nextcord.ButtonStyle.red, custom_id="report-expert")
             btn.callback = None
             view = View(timeout=None)
             view.add_item(btn)
@@ -711,15 +711,17 @@ async def on_interaction(interaction):
                 embed=nextcord.Embed(description="Please enter the email address associated with your PayPal account to get your money back.", color=0x0BBAB5)
                 await interaction.channel.send(embed=embed, view=view)
             else:
+                await interaction.response.defer()
                 embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert. Please contact the support team.", color=0x0BBAB5)
                 await interaction.channel.send(embed=embed)
             print(duration2)
         else:
+            await interaction.response.defer()
             embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert. Please contact the support team.", color=0x0BBAB5)
             await interaction.channel.send(embed=embed)
     elif interaction.data["custom_id"] == "money-back":
-        msg = interaction.message
-        Modal1 = Modal(
+        msg11  = interaction.message
+        Modal1 = Modal( 
             custom_id="money-back-modal",
             title="Money refund",
             timeout=None,
@@ -728,8 +730,8 @@ async def on_interaction(interaction):
         email = nextcord.ui.TextInput(label="Enter your PayPal E-Mail Address", min_length=4, max_length=50, required=True, style=nextcord.TextInputStyle.short)
         Modal1.add_item(email)
         async def modal_callback(interaction):
-            print(msg.content)
-            await msg.delete()
+            print(msg11.content)
+            await msg11.delete()
             with open("./cogs/db/chats.json", "r") as f:
                 data = json.load(f)
             ecid = data[str(interaction.channel.id)]["connect"]
@@ -761,12 +763,54 @@ async def on_interaction(interaction):
             })
 
             if payout.create():
-                button=Button(label="Delete", style=nextcord.ButtonStyle.red)
-                button.callback = None
-                view=View(timeout=None)
-                view.add_item(button)
-                embed = nextcord.Embed(description="You received your money back. You can close this chat by clicking on delete.", color=0x0BBAB5)
-                await interaction.channel.send(embed=embed, view=view)
+                with open("./cogs/db/wasgeht.json", "r") as f:
+                    data = json.load(f)
+                data[str(ecid)] = "b"
+                with open("./cogs/db/wasgeht.json", "w") as f:
+                    json.dump(data, f, indent=4)
+                with open("./cogs/db/payments.json", "r") as f:
+                    data = json.load(f)
+                n = data[str(ecid)]["n"]
+                amount = data[str(ecid)][str(n)]["amount"]
+                data[str(ecid)][str(n)]["status"] = "Z"
+                with open("./cogs/db/payments.json", "w") as f:
+                    json.dump(data, f, indent=4)
+                with open("./cogs/db/finanzen.json", "r") as f:
+                    data = json.load(f)
+                    gesamt = data["Gesamt"]
+                    gesamt -= int(amount)
+                    data["Gesamt"] = gesamt
+                    p = data["p"]
+                    c = data["c"]
+                    g = p * int(amount) + c
+                    schulden = data["Schulden"]
+                    schulden -= g
+                    data["Schulden"] = schulden
+                    cspendings = data["Cspendings"]
+                    cspendings -= int(amount)
+                    data["Cspendings"] = cspendings
+                with open("./cogs/db/finanzen.json", "w") as f:
+                    json.dump(data, f, indent=4)
+                button1=Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="cdeletecom2")
+                button2=Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="edeletecom2")
+                button1.callback = None
+                button2.callback = None
+                view1=View(timeout=None)
+                view1.add_item(button1)
+                view2=View(timeout=None)
+                view2.add_item(button2)
+                embed1 = nextcord.Embed(description="You received your money back. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
+                embed2 = nextcord.Embed(description="The time you specified expired without completing the project with the !happy command. The customer has asked for their money back. This project is therefore terminated. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
+                cchat = client.get_channel(interaction.channel.id)
+                cmsg = await cchat.send(embed=embed1, view=view1)
+                echat = client.get_channel(int(ecid))
+                emsg = await echat.send(embed=embed2, view=view2)
+                with open("./cogs/db/delete-in-der-communication.json", "r") as f:
+                    data = json.load(f)
+                data[str(interaction.channel.id)] = str(cmsg.id)
+                data[str(ecid)] = str(emsg.id)
+                with open("./cogs/db/delete-in-der-communication.json", "w") as f:
+                    json.dump(data, f, indent=4)
             else:
                 button=Button(label="Enter", style=nextcord.ButtonStyle.blurple, custom_id="money-back")
                 button.callback = None
@@ -776,6 +820,82 @@ async def on_interaction(interaction):
                 await interaction.channel.send(embed=embed, view=view)
         Modal1.callback = modal_callback
         await interaction.response.send_modal(modal=Modal1)
+    elif interaction.data["custom_id"] == "cdeletecom2":
+        message = interaction.message.id
+        buttonyes = Button(label="I am sure I want to delete it", style=nextcord.ButtonStyle.red, custom_id="cdeletecom3")
+        buttonyes.callback = None
+        await interaction.response.defer()
+        view = View(timeout=None)
+        view.add_item(buttonyes)
+        button2 = Button(label="<", style=nextcord.ButtonStyle.blurple, custom_id="cdeletecomback", disabled=False)
+        button2.callback = None
+        view5 = View(timeout=None)
+        view5.add_item(buttonyes)
+        view5.add_item(button2)
+        t = interaction.message.content
+        msg99 = await interaction.message.edit(interaction.message.content, view = view5)
+    elif interaction.data["custom_id"] == "cdeletecomback":
+        button3 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="cdeletecom2", disabled=False)
+        button3.callback = None
+        await interaction.response.defer()
+        view6 = View(timeout=None)
+        view6.add_item(button3)
+        await interaction.message.edit(str(interaction.message.content),  view=view6)
+    elif interaction.data["custom_id"] == "cdeletecom3":
+        with open("./cogs/db/chats.json", "r") as f:
+            data = json.load(f)
+        expertchannel_id = data[str(interaction.channel.id)]["connect"]
+        expertchannel = client.get_channel(int(expertchannel_id))
+        expertid = data[str(expertchannel_id)]["owner"]
+        print(expertchannel_id)
+        print(expertid)
+        expert = interaction.guild.get_member(int(expertid))
+        embed = nextcord.Embed(description=f"A Client has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.", color=0x0BBAB5)
+        await expert.send(embed=embed)
+        await interaction.channel.delete()
+        await expertchannel.delete()
+        del data[str(interaction.channel.id)]
+        del data[str(expertchannel_id)]
+        with open("./cogs/db/chats.json", "w") as f:
+            json.dump(data, f, indent=4)
+    elif interaction.data["custom_id"] == "edeletecom2":
+        message = interaction.message.id
+        buttonyes = Button(label="I am sure I want to delete it", style=nextcord.ButtonStyle.red, custom_id="edeletecom3")
+        buttonyes.callback = None
+        await interaction.response.defer()
+        view = View(timeout=None)
+        view.add_item(buttonyes)
+        button2 = Button(label="<", style=nextcord.ButtonStyle.blurple, custom_id="edeletecomback", disabled=False)
+        button2.callback = None
+        view5 = View(timeout=None)
+        view5.add_item(buttonyes)
+        view5.add_item(button2)
+        t = interaction.message.content
+        msg99 = await interaction.message.edit(interaction.message.content, view = view5)
+    elif interaction.data["custom_id"] == "edeletecomback":
+        button3 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="edeletecom2", disabled=False)
+        button3.callback = None
+        await interaction.response.defer()
+        view6 = View(timeout=None)
+        view6.add_item(button3)
+        await interaction.message.edit(str(interaction.message.content),  view=view6)
+    elif interaction.data["custom_id"] == "edeletecom3":
+        with open("./cogs/db/chats.json", "r") as f:
+            data = json.load(f)
+        clientchannel_id = data[str(interaction.channel.id)]["connect"]
+        clientchannel = client.get_channel(int(clientchannel_id))
+        clientid = data[str(clientchannel_id)]["owner"]
+        print(clientchannel_id)
+        print(clientid)
+        client1 = interaction.guild.get_member(int(clientid))
+        embed = nextcord.Embed(description=f"An Expert has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.", color=0x0BBAB5)
+        await client1.send(embed=embed)
+        await interaction.channel.delete()
+        await clientchannel.delete()
+        del data[str(interaction.channel.id)]
+        del data[str(clientchannel_id)]
+        with open("./cogs/db/chats.json", "w") as f:
+            json.dump(data, f, indent=4)
 
 
         
