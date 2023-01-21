@@ -461,7 +461,7 @@ async def on_interaction(interaction):
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
-    elif interaction.data["custom_id"] == "pay-enter":
+    elif interaction.data["custom_id"] == "  -enter":
         Modal1 = Modal(
             custom_id="pay-modal",
             title="Payment",
@@ -493,12 +493,13 @@ async def on_interaction(interaction):
                 print(int(amount.value))
                 int(amount.value)
                 int(time.value)
-                if int(amount.value) < 1 or int(time.value) < 1:
+                if int(amount.value) < 5 or int(time.value) < 1:
                     button = Button(label="Enter", style=nextcord.ButtonStyle.blurple, custom_id="pay-enter")
                     button.callback = None
                     view=View(timeout=None)
                     view.add_item(button)
-                    await interaction.channel.send("The amount or time you entered is/are not an integer above 0. Please try again.", view=view)
+                    embed = nextcord.Embed(description="The amount has to be an integer which is at least five. The time has to be a positive integer. Please try again.", color=0x0BBAB5)
+                    await interaction.channel.send(embed = embed, view=view)
                 else:
                     with open("./cogs/db/chats.json", "r") as f:
                         data = json.load(f)
@@ -640,16 +641,12 @@ async def on_interaction(interaction):
                 json.dump(data, f, indent=4)
             with open("./cogs/db/finanzen.json", "r") as f:
                 data = json.load(f)
+            ank = int(amount1)*94/100-0.49
             gesamt = data["Gesamt"]
-            gesamt += int(amount1)
+            gesamt += ank
             data["Gesamt"] = gesamt
             p = data["p"]
-            c = data["c"]
-            print(p)
-            print(int(amount1))
-            print(c)
-            g = p * int(amount1) + c
-            print(g)
+            g = p * ank
             schulden = data["Schulden"]
             schulden += g
             data["Schulden"] = schulden
@@ -739,7 +736,7 @@ async def on_interaction(interaction):
                 data = json.load(f)
             n = data[str(ecid)]["n"]
             amount = data[str(ecid)][str(n)]["amount"]
-            new_amount = int(amount) * 94 / 100 - 0.5
+            new_amount = int(amount) * 94 / 100 - 0.49
             amount2 = round(new_amount, 2)
             print(new_amount)
             print(email.value)
@@ -777,17 +774,18 @@ async def on_interaction(interaction):
                     json.dump(data, f, indent=4)
                 with open("./cogs/db/finanzen.json", "r") as f:
                     data = json.load(f)
+                    ank = int(amount)*94/100-0.49
+                    ges = 97*ank/100-0.49
                     gesamt = data["Gesamt"]
-                    gesamt -= int(amount)
+                    gesamt -= ank
                     data["Gesamt"] = gesamt
                     p = data["p"]
-                    c = data["c"]
-                    g = p * int(amount) + c
+                    g = p * ank
                     schulden = data["Schulden"]
                     schulden -= g
                     data["Schulden"] = schulden
                     cspendings = data["Cspendings"]
-                    cspendings -= int(amount)
+                    cspendings -= ges
                     data["Cspendings"] = cspendings
                 with open("./cogs/db/finanzen.json", "w") as f:
                     json.dump(data, f, indent=4)
@@ -896,6 +894,52 @@ async def on_interaction(interaction):
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+    elif interaction.data["custom_id"] == "happy-cancel":
+        button = Button(label="Enter", style=nextcord.ButtonStyle.blurple, custom_id="happy-enter")
+        button.callback = None
+        view = View(timeout=None)
+        embed = nextcord.Embed(description="If the customer indicates that they are satisfied with the result, you will receive your money. Please enter the E-Mail address which is associated with your PayPal account.", color=0x0BBAB5)
+        await interaction.response.send_message(embed=embed, view=view)
+    elif interaction.data["custom_id"] == "happy-enter":
+        Modal1 = Modal( 
+            custom_id="happy-paypal",
+            title="Payment Information",
+            timeout=None,
+            auto_defer=True
+        )
+        email = nextcord.ui.TextInput(label="Enter your PayPal E-Mail Address", min_length=4, max_length=50, required=True, style=nextcord.TextInputStyle.short)
+        Modal1.add_item(email)
+        async def modal_callback(interaction):
+            with open("./cogs/db/trash1.json", "r") as f:
+                data = json.load(f)
+            amount = data[str(interaction.channel.id)]["amount"]
+            with open("./cogs/db/wasgeht.json", "r") as f:
+                data = json.load(f)
+            data[str(interaction.channel.id)] = f"c/{amount}"
+            with open("./cogs/db/wasgeht.json", "w") as f:
+                json.dump(data, f, indent=4)
+            with open("./cogs/db/expertzahlinfos.json", "r") as f:
+                data = json.load(f)
+            data[str(interaction.channel.id)] = {}
+            data[str(interaction.channel.id)]["email"] = email.value
+            data[str(interaction.channel.id)]["time"] = datetime.now()
+            with open("./cogs/db/expertzahlinfos.json", "w") as f:
+                json.dump(data, f, indent=4)
+            with open("./cogs/db/chats.json", "r") as f:
+                data = json.load(f)
+            cchatid = data[str(interaction.channel.id)]["connect"]
+            clientchat = client.get_channel(int(cchatid))
+            button = Button(label="Satisfied", style=nextcord.ButtonStyle.green, custom_id="happy-satisfied")
+            button2 = Button(label="Dissatisfied", style=nextcord.ButtonStyle.red, custom_id="happy-dissatisfied")
+            button.callback = None
+            button2.callback = None
+            view = View(timeout=None)
+            view.add_item(button)
+            view.add_item(button2)
+            embed = nextcord.Embed(description="Please indicate if you are satisfied with the result. If you are satisfied the project will be completed and the Expert will receive their money. Please decide within three days, otherwise it will be assumed that you are satisfied.", color=0x0BBAB5)
+            await clientchat.send(embed=embed, view=view)
+        Modal1.callback = modal_callback
+        await interaction.response.send_modal(modal=Modal1)
 
 
         

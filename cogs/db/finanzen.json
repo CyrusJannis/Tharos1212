@@ -1,9 +1,8 @@
 {
     "Gesamt": 0,
-    "Schulden": 0.0,
+    "Schulden": 0,
     "Gewinn": 0,
     "Cspendings": 0,
     "Eearnings": 0,
-    "p": 0.8,
-    "c": -0.3
+    "p": 0.9
 }
