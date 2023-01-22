@@ -16,7 +16,7 @@ class Happy(commands.Cog):
 
     @commands.command()
     @commands.has_any_role(1004884670745411595)
-    async def pay(self, ctx):
+    async def happy(self, ctx):
         if ctx.channel.category_id == 1009828164928807012:
             with open("./cogs/db/wasgeht.json", "r") as f:
                 data = json.load(f)
