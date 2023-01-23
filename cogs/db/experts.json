@@ -3,9 +3,9 @@
         "firstname": "Jannis",
         "lastname": "Longschlong",
         "dateofbirth": "28.07.2002",
-        "jobsdone": 0,
-        "reviews": 0,
-        "starrating": "no reviews"
+        "jobsdone": 3,
+        "reviews": 3,
+        "starrating": 4.666666666666667
     },
     "1036029240631644260": {
         "firstname": "Owomuvuevuew",
@@ -19,8 +19,8 @@
         "firstname": "Daniel",
         "lastname": "Dietrich",
         "dateofbirth": "11.11.1111",
-        "jobsdone": 5,
-        "reviews": 5,
-        "starrating": 0.67
+        "jobsdone": 19,
+        "reviews": 19,
+        "starrating": 2.7552631578947366
     }
 }
