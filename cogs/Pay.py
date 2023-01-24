@@ -1,13 +1,7 @@
 import nextcord
 from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands
-from nextcord import Interaction, SlashOption, ChannelType
-from nextcord.abc import GuildChannel
 import json
-import asyncio
-import random
-import os
-import discord.utils
 import numpy as np
 
 class Pay(commands.Cog):

@@ -1,10 +1,6 @@
 import nextcord
-from nextcord.ui import Select, View, Button, Modal
+from nextcord.ui import Select, View, Button
 from nextcord.ext import commands
-import json
-import asyncio
-import random
-import os
 import discord.utils
 
 class Verify(commands.Cog):

@@ -82,6 +82,13 @@ async def on_interaction(interaction):
                     perms = jpexpertchannel.overwrites_for(interaction.guild.get_member(int(interaction.user.id)))
                     perms.view_channel = False
                     await jpexpertchannel.set_permissions(interaction.guild.get_member(int(interaction.user.id)), overwrite=perms)
+                    with open("Expertquitting.json", "r") as f:
+                        data = json.load(f)
+                    x = data[str(interaction.user.id)]
+                    x += 1
+                    data[str(id)] = x
+                    with open("Expertquitting.json", "w") as f:
+                        json.dump(data, f, indent=4)
                     with open("./cogs/db/wasgeht.json", "r") as f:
                         data = json.load(f)
                     data[str(jpexpertchannel.id)] = "b"
@@ -200,6 +207,11 @@ async def on_interaction(interaction):
         role = discord.utils.get(client.get_guild(1004869688251134033).roles, id=1004884670745411595)
         await user.add_roles(role)
         role = discord.utils.get(client.get_guild(1004869688251134033).roles, id=1005230473599008898)
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        data[str(id)] = 0
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         await user.remove_roles(role)
         await user.send("You are now successfully registered with Tharos as an Expert")
         await interaction.message.delete()
@@ -286,6 +298,13 @@ async def on_interaction(interaction):
         await expert.send(f"A customer has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.")
         await interaction.channel.delete()
         await expertchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(expertid)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -300,6 +319,13 @@ async def on_interaction(interaction):
         await client1.send(f"An Expert has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.")
         await interaction.channel.delete()
         await clientchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(interaction.user.id)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -330,6 +356,7 @@ async def on_interaction(interaction):
             print(expert_id)
             category = interaction.guild.get_channel(1009811084380753941)
             owclientchannel = await category.create_text_channel(interaction.message.embeds[0].title)
+
             await owclientchannel.set_permissions(
                 interaction.guild.get_member(int(interaction.user.id)),
                 view_channel = True,
@@ -345,6 +372,13 @@ async def on_interaction(interaction):
             await interaction.user.send(embed=embed)
             embed23 = nextcord.Embed(description=f"A client has shown interest in your offer '{interaction.message.embeds[0].title}'. You are now connected with the client. Find the channel under 'your Clients'. [view the channel](https://discord.com/channels/{interaction.guild.id}/{owexpertchannel.id})", color=0x0BBAB5)
             expert = interaction.guild.get_member(int(expert_id))
+            with open("Expertquitting.json", "r") as f:
+                data = json.load(f)
+            x = data[str(expert_id)]
+            x += 1
+            data[str(id)] = x
+            with open("Expertquitting.json", "w") as f:
+                json.dump(data, f, indent=4)
             with open("./cogs/db/wasgeht.json", "r") as f:
                 data = json.load(f)
             data[str(owexpertchannel.id)] = "b"
@@ -424,6 +458,13 @@ async def on_interaction(interaction):
         await expert.send(embed = embed)
         await interaction.channel.delete()
         await expertchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(expertid)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -459,6 +500,13 @@ async def on_interaction(interaction):
         await client2.send(embed = embed)
         await interaction.channel.delete()
         await clientchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(interaction.user.id)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -588,7 +636,8 @@ async def on_interaction(interaction):
         button.callback = None
         view=View(timeout=None)
         view.add_item(button)
-        await channel.send("The customer has rejected the data you have entered. Please come to an agreement with the customer and enter the data again.", view=view)
+        embed = nextcord.Embed(description=f"The customer has rejected the data you have entered. Please come to an agreement with the customer and enter the data again.", color=0x0BBAB5)
+        await channel.send(embed=embed, view=view)
     elif interaction.data["custom_id"] == "confirm-payment":
         await interaction.response.defer()
         with open("./cogs/db/paymentid.json", "r") as f:
@@ -854,6 +903,13 @@ async def on_interaction(interaction):
         await expert.send(embed=embed)
         await interaction.channel.delete()
         await expertchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(expertid)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -892,6 +948,13 @@ async def on_interaction(interaction):
         await client1.send(embed=embed)
         await interaction.channel.delete()
         await clientchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(interaction.user.id)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -971,6 +1034,7 @@ async def on_interaction(interaction):
             data = json.load(f)
         connected_channel = data[str(interaction.channel.id)]["connect"]
         expertchannel = client.get_channel(int(connected_channel))
+        await expertchannel.set_permissions(support_role, view_channel=True)
         embed2 = nextcord.Embed(description=f"{interaction.channel.mention}\n{expertchannel.mention}\n//{interaction.channel.id}", color=0x0BBAB5)
         dfchannel = client.get_channel(1066792081823109190)
         button = Button(label="Money back", style=nextcord.ButtonStyle.green, custom_id="happy-mb")
@@ -982,15 +1046,23 @@ async def on_interaction(interaction):
         view.add_item(button2)
         await dfchannel.send(embed=embed2, view=view)
     elif interaction.data["custom_id"] == "happy-mb":
-        spl = interaction.message.split("//")
+        await interaction.message.delete()
+        spl = interaction.message.embeds[0].description.split("//")
         id = spl[1]
         embed = nextcord.Embed(description="Please enter the email address associated with your PayPal account to get your money back.", color=0x0BBAB5)
-        button = Button(label="enter", style=nextcord.ButtonStyle.green, custom_id="happy-entermb")
+        button = Button(label="Enter", style=nextcord.ButtonStyle.green, custom_id="happy-entermb")
         button.callback = None
         view = View(timeout=None)
         view.add_item(button)
         clientchannel = client.get_channel(int(id))
+        await interaction.response.defer()
         await clientchannel.send(embed=embed, view=view)
+        await clientchannel.set_permissions(support_role, view_channel=False)
+        with open("./cogs/db/chats.json", "r") as f:
+            data = json.load(f)
+        echannel = data[str(clientchannel)]["connect"]
+        exchannel = client.get_channel(int(echannel))
+        await exchannel.set_permissions(support_role, view_channel=False)
     elif interaction.data["custom_id"] == "happy-entermb":
         msg11 = interaction.message
         Modal1 = Modal( 
@@ -1124,6 +1196,13 @@ async def on_interaction(interaction):
         await expert.send(embed=embed)
         await interaction.channel.delete()
         await expertchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(expertid)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -1162,6 +1241,13 @@ async def on_interaction(interaction):
         await client1.send(embed=embed)
         await interaction.channel.delete()
         await clientchannel.delete()
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(interaction.user.id)]
+        x -= 1
+        data[str(id)] = x
+        with open("Expertquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
         del data[str(interaction.channel.id)]
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
@@ -1333,7 +1419,7 @@ async def on_interaction(interaction):
             view1.add_item(button1)
             view2=View(timeout=None)
             view2.add_item(button2)
-            embed1 = nextcord.Embed(description="The expert was successfully paid. This project is hereby completed. You can close the chat by clicking 'delete'.", color=0x0BBAB5)
+            embed1 = nextcord.Embed(description="The Expert was successfully paid. This project is hereby completed. You can close the chat by clicking 'delete'.", color=0x0BBAB5)
             embed2 = nextcord.Embed(description="The customer has rated your work as satisfactory. You have been paid successfully. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
             cchat = client.get_channel(interaction.channel.id)
             cmsg = await cchat.send(embed=embed1, view=view1)
@@ -1356,8 +1442,6 @@ async def on_interaction(interaction):
             echannel = client.get_channel(int(echannelid))
             embed=nextcord.Embed(description="The payment did not work. Please enter a valid email address which is associated with your PayPal account.", color=0x0BBAB5)
             await echannel.send(embed=embed, view=view)
-
-    
     elif interaction.data["custom_id"] == "enter7":
         Modal2 = Modal( 
             custom_id="expertpayouttryagain",
@@ -1439,7 +1523,7 @@ async def on_interaction(interaction):
                 view1.add_item(button1)
                 view2=View(timeout=None)
                 view2.add_item(button2)
-                embed1 = nextcord.Embed(description="The expert was successfully paid. This project is hereby completed. You can close the chat by clicking 'delete'.", color=0x0BBAB5)
+                embed1 = nextcord.Embed(description="The Expert was successfully paid. This project is hereby completed. You can close the chat by clicking 'delete'.", color=0x0BBAB5)
                 embed2 = nextcord.Embed(description="The customer has rated your work as satisfactory. You have been paid successfully. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
                 with open("./cogs/db/chats.json", "r") as f:
                     data = json.load(f)
@@ -1465,7 +1549,19 @@ async def on_interaction(interaction):
                 await echannel.send(embed=embed, view=view)
         Modal2.callback = modal_callback
         await interaction.response.send_modal(modal=Modal2)
-
+    elif interaction.data["custom_id"] == "qaae":
+        with open("Expertquitting.json", "r") as f:
+            data = json.load(f)
+        x = data[str(interaction.user.id)]
+        if x == 0:
+            role = discord.utils.get(client.get_guild(1004869688251134033).roles, id=1004884670745411595)
+            await interaction.user.remove_roles(role)
+            role2 = discord.utils.get(client.get_guild(1004869688251134033).roles, id=1005230473599008898)
+            await interaction.user.add_roles(role2)
+            # alles aus Datenbanken löschen vom Expert.
+        else:
+            # Response-Nachricht: Bitte zuerst alle Aufträge abschließen und die Channel löschen.
+            
 
 
     

@@ -2,10 +2,6 @@ import nextcord
 from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands
 import json
-import asyncio
-import random
-import os
-import discord.utils
 import numpy as np
 
 class Registerasanexpert(commands.Cog):
