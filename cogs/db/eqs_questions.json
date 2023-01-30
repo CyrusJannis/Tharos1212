@@ -72,23 +72,23 @@
         "right": ["21", "twenty-one", "Twenty-one", "twentyone", "Twentyone"]
     },
     "1r": {
-        "f": "Which command do you use to send an invoice?",
-        "right": ["/pay"]
+        "f": "Enter the command for sending an invoice.",
+        "right": ["!pay"]
     },
     "2r": {
-        "f": "Which command do you use to get your money?",
-        "right": ["/happy"]
+        "f": "Is proper work important to get further jobs?",
+        "right": ["Yes","yes","Yeah","yeah","Yes it is","yes it is","It is important","it is important","Proper work is important","proper work is important","Ofcourse","Absolutely","Indeed","indeed","Yea","yea"]
     },
     "3r": {
-        "f": "10+1",
-        "right": ["11", "11"]
+        "f": "Enter the command for receiving your money.",
+        "right": ["!happy"]
     },
     "4r": {
-        "f": "1+2",
-        "right": ["3"]
+        "f": "Can a dissatisfied customer get a refund?",
+        "right": ["Yes","yes","Yeah","yeah","Ofcourse","ofcourse","Absolutely","absolutely","Indeed","indeed","Yea","yea"]
     },
     "5r": {
-        "f": "2+3",
-        "right": ["5"]
+        "f": "Can you quit as an Expert with open tasks?",
+        "right": ["No","no","Nah","nah","nope","Nope","No you cant","no you cant","Ne","ne"]
 }
 }

@@ -45,8 +45,11 @@ class Offerwork(commands.Cog):
         Modal1.add_item(amount)
         async def modal_callback(interaction):
             try:
+                print(1)
                 (int(amount.value))
+                print(amount.value)
                 if int(amount.value) > 4:
+                    print(1)
                     what = {
                         "web": 1009848187646910476,
                         "apps": 1009848261303087115,
@@ -107,7 +110,8 @@ class Offerwork(commands.Cog):
                 else:
                     embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x0BBAB5)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
-            except:
+            except Exception as e:
+                print(e)
                 embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x0BBAB5)
                 await interaction.response.send_message(embed=embed, ephemeral=True)
         Modal1.callback = modal_callback
