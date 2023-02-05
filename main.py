@@ -229,10 +229,10 @@ async def on_interaction(interaction):
                 with open("./cogs/db/wgzn.json", "r") as f:
                     data = json.load(f)
                 client_id = data[str(co_id)]
-                application = nextcord.ui.TextInput(label="Tell the customer a few words about yourself", min_length=50, max_length=1000, required=True, placeholder=" ~ Application ~ ", style=nextcord.TextInputStyle.paragraph)
+                application = nextcord.ui.TextInput(label="Tell the client a few words about yourself", min_length=50, max_length=1000, required=True, placeholder=" ~ Application ~ ", style=nextcord.TextInputStyle.paragraph)
                 Modal2.add_item(application)
                 async def modal2_callback(interaction):
-                    embed9 = nextcord.Embed(description=f"Your application for the job '{title}' has been successfully sent. As soon as the customer accepts it, you can chat with him.", color=0x0BBAB5)
+                    embed9 = nextcord.Embed(description=f"Your application for the job '{title}' has been successfully sent. As soon as the client accepts it, you can chat with him.", color=0x0BBAB5)
                     await interaction.response.send_message(embed=embed9, ephemeral=True)
                     await msg7.delete()
                     category = interaction.guild.get_channel(1009811084380753941)
@@ -279,7 +279,7 @@ async def on_interaction(interaction):
                     view6.add_item(btn)
                     embed = nextcord.Embed(description="You can now chat with the client. Please follow the rules, which you can find under [rules for Experts](https://discord.com/channels/1004869688251134033/1009830178211504148).\n\nIf you click on 'delete', the channel will be deleted. Please note, that after deleting, the communication can not be restored.", color=0x0BBAB5)
                     qq = await jpexpertchannel.send(embed=embed, view=view6)
-                    embed2 = nextcord.Embed(description="Quick guide:\nAfter you have reached an agreement with the customer, you can send him the invoice using the command !pay. When the customer has paid, you will recieve a confirmation and you can start working. When you are done, hand over the work to the customer and ask for his opinion with the command !happy. If the customer is satisfied, you recieve the money and the customer leaves you a star rating.\n\nYou can find more information here: [help for experts](https://discord.com/channels/1004869688251134033/1009849367760482455)", color=0x0BBAB5)
+                    embed2 = nextcord.Embed(description="Quick guide:\nAfter you have reached an agreement with the client, you can send him the invoice using the command !pay. When the client has paid, you will recieve a confirmation and you can start working. When you are done, hand over the work to the client and ask for his opinion with the command !happy. If the client is satisfied, you recieve the money and the client leaves you a star rating.\n\nYou can find more information here: [help for experts](https://discord.com/channels/1004869688251134033/1009849367760482455)", color=0x0BBAB5)
                     await jpexpertchannel.send(embed=embed2)
                     with open("./cogs/db/experts.json", "r") as f:
                         data = json.load(f)
@@ -320,7 +320,7 @@ async def on_interaction(interaction):
             button99.callback = btn99_callback
             view3 = View(timeout=None)
             view3.add_item(button99)
-            embed = nextcord.Embed(description="To apply for this job offer, tell the customer a few words about yourself. Most importantly, tell them what qualifies you for this job.", colour=0x0BBAB5)
+            embed = nextcord.Embed(description="To apply for this job offer, tell the client a few words about yourself. Most importantly, tell them what qualifies you for this job.", colour=0x0BBAB5)
             msg7 = await interaction.response.send_message(embed=embed, view=view3, ephemeral=True)
     elif interaction.data["custom_id"] == "jodelete":
         #               -----                          
@@ -410,9 +410,9 @@ async def on_interaction(interaction):
         perms = client.get_channel(interaction.channel.id).overwrites_for(interaction.guild.get_member(int(interaction.user.id)))
         perms.send_messages=True
         await client.get_channel(interaction.channel.id).set_permissions(interaction.guild.get_member(int(interaction.user.id)), overwrite=perms)
-        embed2 = nextcord.Embed(description=f"Your application for the job '{job_title}' has been accepted. You can now chat with the customer\n[View the channel](https://discord.com/channels/{interaction.guild.id}/{int(connected_channel)})", color=0x0BBAB5)
+        embed2 = nextcord.Embed(description=f"Your application for the job '{job_title}' has been accepted. You can now chat with the client\n[View the channel](https://discord.com/channels/{interaction.guild.id}/{int(connected_channel)})", color=0x0BBAB5)
         await expert.send(embed=embed2)
-        button = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jpapplicationdelete2")
+        button = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jpapplicationdelete1")
         button.callback = None
         view = View(timeout=None)
         view.add_item(button)
@@ -488,9 +488,14 @@ async def on_interaction(interaction):
         expertchannel = client.get_channel(int(expertchannel_id))
         expertid = data[str(expertchannel_id)]["owner"]
         expert = interaction.guild.get_member(expertid)
-        await expert.send(f"A customer has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.")
+        embed244 = nextcord.Embed(description=f"A client has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.", color=0x0BBAB5)
+        await expert.send(embed=embed244)
         await interaction.channel.delete()
         await expertchannel.delete()
+        del data[str(interaction.channel.id)]
+        del data[str(expertchannel_id)]
+        with open("./cogs/db/chats.json", "w") as f:
+            json.dump(data, f, indent=4)
         with open("./cogs/db/Expertquitting.json", "r") as f:
             data = json.load(f)
         x = data[str(expertid)]
@@ -505,10 +510,6 @@ async def on_interaction(interaction):
         data[str(interaction.user.id)] = y
         with open("./cogs/db/Clientquitting.json", "w") as f:
             json.dump(data, f, indent=4)
-        del data[str(interaction.channel.id)]
-        del data[str(expertchannel_id)]
-        with open("./cogs/db/chats.json", "w") as f:
-            json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "jpexpertdelete":
         with open("./cogs/db/chats.json", "r") as f:
             data = json.load(f)
@@ -516,7 +517,8 @@ async def on_interaction(interaction):
         clientchannel = client.get_channel(int(clientchannel_id))
         clientid = data[str(clientchannel_id)]["owner"]
         client1 = interaction.guild.get_member(int(clientid))
-        await client1.send(f"An Expert has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.")
+        embed239 = nextcord.Embed(description=f"An Expert has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.", color=0x0BBAB5)
+        await client1.send(embed=embed239)
         await interaction.channel.delete()
         await clientchannel.delete()
         with open("./cogs/db/Expertquitting.json", "r") as f:
@@ -633,7 +635,7 @@ async def on_interaction(interaction):
             embed2 = nextcord.Embed(description="You can now chat with the client. Please follow the rules, which you can find under [rules for Experts](https://discord.com/channels/1004869688251134033/1009830178211504148)", color=0x0BBAB5)
             qq = await owexpertchannel.send(embed=embed2, view=view2)
             embed2 = nextcord.Embed(
-                description="Quick guide:\nAfter you have reached an agreement with the customer, you can send him the invoice using the command !pay. When the customer has paid, you will recieve a confirmation and you can start working. When you are done, hand over the work to the customer and ask for his opinion with the command !happy. If the customer is satisfied, you recieve the money and the customer leaves you a star rating.\n\nYou can find more information here: [help for experts](https://discord.com/channels/1004869688251134033/1009849367760482455)",
+                description="Quick guide:\nAfter you have reached an agreement with the client, you can send him the invoice using the command !pay. When the client has paid, you will recieve a confirmation and you can start working. When you are done, hand over the work to the client and ask for his opinion with the command !happy. If the client is satisfied, you recieve the money and the client leaves you a star rating.\n\nYou can find more information here: [help for experts](https://discord.com/channels/1004869688251134033/1009849367760482455)",
                 color=0x0BBAB5)
             await owexpertchannel.send(embed=embed2)
             with open("./cogs/db/delete-in-der-communication.json", "r") as f:
@@ -670,7 +672,7 @@ async def on_interaction(interaction):
         print(expertid)
         expert = interaction.guild.get_member(int(expertid))
         print(expert)
-        embed = nextcord.Embed(description=f"A customer has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.", color=0x0BBAB5)
+        embed = nextcord.Embed(description=f"A client has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.", color=0x0BBAB5)
         await expert.send(embed = embed)
         await interaction.channel.delete()
         await expertchannel.delete()
@@ -760,7 +762,7 @@ async def on_interaction(interaction):
         Modal1.add_item(time)
         async def modal_callback(interaction):
             await msg.delete()
-            embed = nextcord.Embed(description="The invoice has been sent to the customer. Once the payment is completed, you will be notified.", color=0x0BBAB5)
+            embed = nextcord.Embed(description="The invoice has been sent to the client. Once the payment is completed, you will be notified.", color=0x0BBAB5)
             await interaction.response.send_message(embed=embed)
             with open("./cogs/db/trash1.json", "r") as f:
                 data = json.load(f)
@@ -869,7 +871,7 @@ async def on_interaction(interaction):
         button.callback = None
         view=View(timeout=None)
         view.add_item(button)
-        embed = nextcord.Embed(description=f"The customer has rejected the data you have entered. Please come to an agreement with the customer and enter the data again.", color=0x0BBAB5)
+        embed = nextcord.Embed(description=f"The client has rejected the data you have entered. Please come to an agreement with the client and enter the data again.", color=0x0BBAB5)
         await channel.send(embed=embed, view=view)
     elif interaction.data["custom_id"] == "confirm-payment":
         await interaction.response.defer()
@@ -901,7 +903,7 @@ async def on_interaction(interaction):
                 data = json.load(f)
             ecid = data[str(i.channel.id)]["connect"]
             echat = client.get_channel(int(ecid))
-            embed = nextcord.Embed(description=f"We have received the payment from the customer. You can start the work now. Please note that the customer can ask for their money back after {time1} days.", color=0x0BBAB5)
+            embed = nextcord.Embed(description=f"We have received the payment from the client. You can start the work now. Please note that the client can ask for their money back after {time1} days.", color=0x0BBAB5)
             await echat.send(embed=embed)
             with open("./cogs/db/delete-in-der-communication.json", "r") as f:
                 data = json.load(f)
@@ -1082,7 +1084,7 @@ async def on_interaction(interaction):
                 view2=View(timeout=None)
                 view2.add_item(button2)
                 embed1 = nextcord.Embed(description="You received your money back. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
-                embed2 = nextcord.Embed(description="The time you specified expired without completing the project with the !happy command. The customer has asked for their money back. This project is therefore terminated. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
+                embed2 = nextcord.Embed(description="The time you specified expired without completing the project with the !happy command. The client has asked for their money back. This project is therefore terminated. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
                 cchat = client.get_channel(interaction.channel.id)
                 cmsg = await cchat.send(embed=embed1, view=view1)
                 echat = client.get_channel(int(ecid))
@@ -1214,7 +1216,7 @@ async def on_interaction(interaction):
         button.callback = None
         view = View(timeout=None)
         view.add_item(button)
-        embed = nextcord.Embed(description="If the customer indicates that they are satisfied with the result, you will receive your money. Please enter the E-Mail address which is associated with your PayPal account.", color=0x0BBAB5)
+        embed = nextcord.Embed(description="If the client indicates that they are satisfied with the result, you will receive your money. Please enter the E-Mail address which is associated with your PayPal account.", color=0x0BBAB5)
         await interaction.response.send_message(embed=embed, view=view)
     elif interaction.data["custom_id"] == "happy-enter":
         msg = interaction.message
@@ -1429,7 +1431,7 @@ async def on_interaction(interaction):
                 view2=View(timeout=None)
                 view2.add_item(button2)
                 embed1 = nextcord.Embed(description="You received your money back. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
-                embed2 = nextcord.Embed(description="The customer was not satisfied with your work. A supporter then judged the work as insufficient and the customer got his money back. This project is therefore terminated. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
+                embed2 = nextcord.Embed(description="The client was not satisfied with your work. A supporter then judged the work as insufficient and the client got his money back. This project is therefore terminated. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
                 cchat = client.get_channel(interaction.channel.id)
                 cmsg = await cchat.send(embed=embed1, view=view1)
                 echat = client.get_channel(int(ecid))
@@ -1764,7 +1766,7 @@ async def on_interaction(interaction):
             view2=View(timeout=None)
             view2.add_item(button2)
             embed1 = nextcord.Embed(description="The Expert was successfully paid. This project is hereby completed. You can close the chat by clicking 'delete'.", color=0x0BBAB5)
-            embed2 = nextcord.Embed(description="The customer has rated your work as satisfactory. You have been paid successfully. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
+            embed2 = nextcord.Embed(description="The client has rated your work as satisfactory. You have been paid successfully. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
             cchat = client.get_channel(interaction.channel.id)
             cmsg = await cchat.send(embed=embed1, view=view1)
             echat = client.get_channel(int(echannelid))
@@ -1868,7 +1870,7 @@ async def on_interaction(interaction):
                 view2=View(timeout=None)
                 view2.add_item(button2)
                 embed1 = nextcord.Embed(description="The Expert was successfully paid. This project is hereby completed. You can close the chat by clicking 'delete'.", color=0x0BBAB5)
-                embed2 = nextcord.Embed(description="The customer has rated your work as satisfactory. You have been paid successfully. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
+                embed2 = nextcord.Embed(description="The client has rated your work as satisfactory. You have been paid successfully. You can close this chat by clicking on 'delete'.", color=0x0BBAB5)
                 with open("./cogs/db/chats.json", "r") as f:
                     data = json.load(f)
                 cchannelid3 = data[str(interaction.channel.id)]["connect"]
@@ -2017,7 +2019,7 @@ async def econtact_support(ctx):
     view.add_item(button)
     embed1 = nextcord.Embed(description="By clicking on the button below you can contact the support team. In the following message you can find the most important information about how THAROS works.", color=0x0BBAB5)
     await ctx.send(embed=embed1)
-    embed = nextcord.Embed(description="The mission of THAROS is to reconnect freelancers and clients for online services. THAROS wants to create a market for freelancers worldwide and offer clients numerous, easily accessible online services. Diversity of offerings and maximum client support are the top priorities. Freelancers can easily register as an Expert at THAROS by answering some questions and providing personal data. An Expert then has the opportunity to connect with a client and earn money with his work. An Expert should be helpful and complete his orders with certainty. An Expert can connect with a customer by applying for a job offer or posting a work offer himself. In both cases, customers can see his star rating. This is issued by clients after a successful job. If an Expert is connected to a client for a job, then the Expert can send two commands. The first command is !pay. This command is sent once an agreement has been reached with the client on the order. The command creates an invoice for the client. The Expert will be asked for the amount and the maximum time to complete the project. The Expert must submit his work to the client within this time and send the !happy command. Otherwise, the client can ask for his money back. For the safety of the Expert, the client must first pay the full amount to THAROS. Once the client has done this, the Expert will be notified and can start working. After the Expert has submitted his work to the client, he can receive his money using the !happy command. Then the client is asked if they are satisfied with the project. If the client is satisfied, the Expert receives his money immediately. If the client is not satisfied, they can call a supporter. The supporter decides about the refund of the money. If the client does not respond to !happy, the Expert will receive his money after three days at the latest. After the money transfer to the Expert the job is finished and the chat can be closed again. However, it is also possible to do another job in the same chat. The status as an Expert can be quit at any time, under the condition that all jobs are completed and all chats with clients are closed.", color=0x0BBAB5)
+    embed = nextcord.Embed(description="The mission of THAROS is to reconnect freelancers and clients for online services. THAROS wants to create a market for freelancers worldwide and offer clients numerous, easily accessible online services. Diversity of offerings and maximum client support are the top priorities. Freelancers can easily register as an Expert at THAROS by answering some questions and providing personal data. An Expert then has the opportunity to connect with a client and earn money with his work. An Expert should be helpful and complete his orders with certainty. An Expert can connect with a client by applying for a job offer or posting a work offer himself. In both cases, clients can see his star rating. This is issued by clients after a successful job. If an Expert is connected to a client for a job, then the Expert can send two commands. The first command is !pay. This command is sent once an agreement has been reached with the client on the order. The command creates an invoice for the client. The Expert will be asked for the amount and the maximum time to complete the project. The Expert must submit his work to the client within this time and send the !happy command. Otherwise, the client can ask for his money back. For the safety of the Expert, the client must first pay the full amount to THAROS. Once the client has done this, the Expert will be notified and can start working. After the Expert has submitted his work to the client, he can receive his money using the !happy command. Then the client is asked if they are satisfied with the project. If the client is satisfied, the Expert receives his money immediately. If the client is not satisfied, they can call a supporter. The supporter decides about the refund of the money. If the client does not respond to !happy, the Expert will receive his money after three days at the latest. After the money transfer to the Expert the job is finished and the chat can be closed again. However, it is also possible to do another job in the same chat. The status as an Expert can be quit at any time, under the condition that all jobs are completed and all chats with clients are closed.", color=0x0BBAB5)
     await ctx.send(embed=embed, view=view)
 
 @client.event
