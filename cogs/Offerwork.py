@@ -120,7 +120,8 @@ class Offerwork(commands.Cog):
         select.callback = select_callback
         view = View(timeout=None)
         view.add_item(select)
-        await ctx.channel.send("Hi! Do you want to offer a service to clients? Then please select which category the service belongs to. When you submit the service offer, clients can see it and can contact you. Please note that when you click on 'submit', the service offer will be posted and you will not be able to make any more changes.", view=view)
+        embed = nextcord.Embed(description="Hi! Do you want to offer a service to clients? Then please select which category the service belongs to. When you submit the service offer, clients can see it and can contact you. Please note that when you click on 'submit', the service offer will be posted and you will not be able to make any more changes.", color=0x0BBAB5)
+        await ctx.channel.send(embed=embed, view=view)
 
 def setup(client):
     client.add_cog(Offerwork(client))

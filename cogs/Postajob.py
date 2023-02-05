@@ -85,6 +85,8 @@ class Postajob(commands.Cog):
                     data[str(msg2.id)] = str(interaction.user.id)
                     with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
                         json.dump(data, f, indent=4)
+                    embed77 = nextcord.Embed(description="Your job has been successfully posted.", color=0x0BBAB5)
+                    await interaction.response.send_message(embed=embed77, ephemeral=True)
                 else:
                     embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x0BBAB5)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
@@ -97,7 +99,8 @@ class Postajob(commands.Cog):
         select.callback = select_callback
         view = View(timeout=None)
         view.add_item(select)
-        await ctx.channel.send("Hi! Do you want an Expert to do a job for you? Then please select which category the job belongs to. When you submit a job, our Experts will be informed and can contact you. Please note that when you click on 'submit', the job will be posted and you will not be able to make any more changes.", view=view)
+        embed = nextcord.Embed(description="Hi! Do you want an Expert to do a job for you? Then please select which category the job belongs to. When you submit a job, our Experts will be informed and can contact you. Please note that when you click on 'submit', the job will be posted and you will not be able to make any more changes.", color=0x0BBAB5)
+        await ctx.channel.send(embed=embed, view=view)
 
 def setup(client):
     client.add_cog(Postajob(client))
