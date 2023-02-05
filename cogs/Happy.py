@@ -17,6 +17,14 @@ class Happy(commands.Cog):
                 data = json.load(f)
             status = data[str(ctx.channel.id)]
             if status.startswith("a"):
+                with open("./cogs/db/trash1.json", "r") as f:
+                    data = json.load(f)
+                amount = data[str(ctx.channel.id)]["amount"]
+                with open("./cogs/db/wasgeht.json", "r") as f:
+                    data = json.load(f)
+                data[str(ctx.channel.id)] = f"c/{amount}"
+                with open("./cogs/db/wasgeht.json", "w") as f:
+                    json.dump(data, f,  indent=4)
                 button = Button(label="Confirm", style=nextcord.ButtonStyle.blurple, custom_id="happy-confirm")
                 button2 = Button(label="Cancel", style=nextcord.ButtonStyle.blurple, custom_id="happy-cancel")
                 button.callback = None
@@ -24,7 +32,7 @@ class Happy(commands.Cog):
                 view=View(timeout=None)
                 view.add_item(button)
                 view.add_item(button2)
-                embed = nextcord.Embed(description="Please confirm that the customer has received your work.", color=0x0BBAB5)
+                embed = nextcord.Embed(description="Please confirm that the client has received your work.", color=0x0BBAB5)
                 await ctx.channel.send(embed=embed, view=view)
             else:
                 if status == "b":

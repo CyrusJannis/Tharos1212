@@ -14,7 +14,7 @@ class Quitasanexpert(commands.Cog):
         button1.callback = None
         view = View(timeout=None)
         view.add_item(button1)
-        embed = nextcord.Embed(description="Do you want to give up your status as an Expert at THAROS? Then please finish all your orders from customers and close the chats. If you press this button your Account will be cancelled and your data will be deleted from the database. There is no way to restore your Account.", color=0x0BBAB5)
+        embed = nextcord.Embed(description="Do you want to give up your status as an Expert at THAROS? Then please finish all your orders from clients and close the chats. If you press this button your Account will be cancelled and your data will be deleted from the database. There is no way to restore your Account.", color=0x0BBAB5)
         await ctx.send(embed=embed, view=view)
 
         
