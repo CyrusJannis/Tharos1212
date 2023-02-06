@@ -13,9 +13,9 @@ class Registerasanexpert(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def raae(self, ctx):
         await ctx.message.delete()
-        embed1 = nextcord.Embed(description="Experts are the working force behind Tharos.\nAs an Expert you earn money by providing services to your clients.", color=0x0BBAB5)
+        embed1 = nextcord.Embed(description="Experts are the working force behind THAROS.\nAs an Expert you earn money by providing services to your clients.", color=0x0BBAB5)
         await ctx.send(embed=embed1)
-        embed2 = nextcord.Embed(description="If you want to register as an Expert at Tharos please read the following information and rules carefully.", color=0x0BBAB5)
+        embed2 = nextcord.Embed(description="If you want to register as an Expert at THAROS please read the following information and rules carefully.", color=0x0BBAB5)
         await ctx.send(embed=embed2)
         await ctx.send(file=nextcord.File(r"./cogs/files/Information_for_Experts.pdf"))
         await ctx.send(file=nextcord.File(r"./cogs/files/Rules_for_Experts.pdf"))

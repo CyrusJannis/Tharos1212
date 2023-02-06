@@ -49,6 +49,8 @@ class Offerwork(commands.Cog):
                 (int(amount.value))
                 print(amount.value)
                 if int(amount.value) > 4:
+                    embed = nextcord.Embed(description="Your work offer was successfully sent.", color=0x0BBAB5)
+                    await interaction.response.send_message(embed=embed)
                     print(1)
                     what = {
                         "web": 1009848187646910476,
