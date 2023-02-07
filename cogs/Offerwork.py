@@ -49,7 +49,7 @@ class Offerwork(commands.Cog):
                 (int(amount.value))
                 print(amount.value)
                 if int(amount.value) > 4:
-                    embed = nextcord.Embed(description="Your work offer was successfully sent.", color=0x0BBAB5)
+                    embed = nextcord.Embed(description="Your work offer was successfully sent.", color=0x35C5FF)
                     await interaction.response.send_message(embed=embed)
                     print(1)
                     what = {
@@ -83,7 +83,7 @@ class Offerwork(commands.Cog):
                         else:
                             starrating = "⭐⭐⭐⭐⭐"
                     channel = self.bot.get_channel(what[select.values[0]])
-                    embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$\n\nStar rating: {starrating}", color=0x0BBAB5)
+                    embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$\n\nStar rating: {starrating}", color=0x35C5FF)
 
                     #  ---   Contact Button   ---
                     button1 = Button(label="Contact", style=nextcord.ButtonStyle.green, custom_id="owcontact")
@@ -94,7 +94,7 @@ class Offerwork(commands.Cog):
                     button2 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jodelete", disabled=False)
                     view3 = View(timeout=None)
                     view3.add_item(button2)
-                    embed = nextcord.Embed(description=f"You have made the following work offer:\n\n{tit.value}\n{desc.value}\n\nYou can delete this offer at any time.", color=0x0BBAB5)
+                    embed = nextcord.Embed(description=f"You have made the following work offer:\n\n{tit.value}\n{desc.value}\n\nYou can delete this offer at any time.", color=0x35C5FF)
                     msg = await interaction.user.send(embed=embed, view=view3)
                     with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "r") as f:
                         data = json.load(f)
@@ -110,11 +110,11 @@ class Offerwork(commands.Cog):
                     with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
                         json.dump(data, f, indent=4)
                 else:
-                    embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x0BBAB5)
+                    embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
             except Exception as e:
                 print(e)
-                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x0BBAB5)
+                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
                 await interaction.response.send_message(embed=embed, ephemeral=True)
         Modal1.callback = modal_callback
         async def select_callback(interaction):
@@ -122,7 +122,7 @@ class Offerwork(commands.Cog):
         select.callback = select_callback
         view = View(timeout=None)
         view.add_item(select)
-        embed = nextcord.Embed(description="Hi! Do you want to offer a service to clients? Then please select which category the service belongs to. When you submit the service offer, clients can see it and can contact you. Please note that when you click on 'submit', the service offer will be posted and you will not be able to make any more changes.", color=0x0BBAB5)
+        embed = nextcord.Embed(description="Hi! Do you want to offer a service to clients? Then please select which category the service belongs to. When you submit the service offer, clients can see it and can contact you. Please note that when you click on 'submit', the service offer will be posted and you will not be able to make any more changes.", color=0x35C5FF)
         await ctx.channel.send(embed=embed, view=view)
 
 def setup(client):

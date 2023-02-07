@@ -32,17 +32,17 @@ class Happy(commands.Cog):
                 view=View(timeout=None)
                 view.add_item(button)
                 view.add_item(button2)
-                embed = nextcord.Embed(description="Please confirm that the client has received your work.", color=0x0BBAB5)
+                embed = nextcord.Embed(description="Please confirm that the client has received your work.", color=0x35C5FF)
                 await ctx.channel.send(embed=embed, view=view)
             else:
                 if status == "b":
-                    embed=nextcord.Embed(description="You have not started a new project yet", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="You have not started a new project yet", color=0x35C5FF)
                     await ctx.channel.send(embed=embed)
                 elif status == "c":
-                    embed=nextcord.Embed(description="The previous project is not yet completed.", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="The previous project is not yet completed.", color=0x35C5FF)
                     await ctx.channel.send(embed=embed)
                 elif status.startswith("c"):
-                    embed=nextcord.Embed(description="You can't use !happy twice in a row.", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="You can't use !happy twice in a row.", color=0x35C5FF)
                     await ctx.channel.send(embed=embed)
                 else: print(1)
 

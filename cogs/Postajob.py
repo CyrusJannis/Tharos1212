@@ -59,7 +59,7 @@ class Postajob(commands.Cog):
                         "other": 1009849240517869568
                     }
                     channel = self.bot.get_channel(what[select.values[0]])
-                    embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$", color=0x0BBAB5)
+                    embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$", color=0x35C5FF)
 
                     #  ---   Contact Button   ---
                     button1 = Button(label="Contact", style=nextcord.ButtonStyle.green, custom_id="jocontact")
@@ -70,7 +70,7 @@ class Postajob(commands.Cog):
                     button2 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jodelete", disabled=False)
                     view3 = View(timeout=None)
                     view3.add_item(button2)
-                    embed2 = nextcord.Embed(description=f"You have made the following job posting:\n\n{tit.value}\n{desc.value}\n\nYou can delete this job at any time.", color=0x0BBAB5)
+                    embed2 = nextcord.Embed(description=f"You have made the following job posting:\n\n{tit.value}\n{desc.value}\n\nYou can delete this job at any time.", color=0x35C5FF)
                     msg = await interaction.user.send(embed=embed2, view=view3)
                     with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "r") as f:
                         data = json.load(f)
@@ -85,13 +85,13 @@ class Postajob(commands.Cog):
                     data[str(msg2.id)] = str(interaction.user.id)
                     with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
                         json.dump(data, f, indent=4)
-                    embed77 = nextcord.Embed(description="Your job has been successfully posted.", color=0x0BBAB5)
+                    embed77 = nextcord.Embed(description="Your job has been successfully posted.", color=0x35C5FF)
                     await interaction.response.send_message(embed=embed77, ephemeral=True)
                 else:
-                    embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x0BBAB5)
+                    embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
             except:
-                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x0BBAB5)
+                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
                 await interaction.response.send_message(embed=embed, ephemeral=True)
         Modal1.callback = modal_callback
         async def select_callback(interaction):
@@ -99,7 +99,7 @@ class Postajob(commands.Cog):
         select.callback = select_callback
         view = View(timeout=None)
         view.add_item(select)
-        embed = nextcord.Embed(description="Hi! Do you want an Expert to do a job for you? Then please select which category the job belongs to. When you submit a job, our Experts will be informed and can contact you. Please note that when you click on 'submit', the job will be posted and you will not be able to make any more changes.", color=0x0BBAB5)
+        embed = nextcord.Embed(description="Hi! Do you want an Expert to do a job for you? Then please select which category the job belongs to. When you submit a job, our Experts will be informed and can contact you. Please note that when you click on 'submit', the job will be posted and you will not be able to make any more changes.", color=0x35C5FF)
         await ctx.channel.send(embed=embed, view=view)
 
 def setup(client):

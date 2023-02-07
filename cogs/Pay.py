@@ -25,17 +25,17 @@ class Pay(commands.Cog):
                 button.callback = None
                 view=View(timeout=None)
                 view.add_item(button)
-                embed = nextcord.Embed(description="Please enter the amount you want the client to pay for your work. For amounts over 40$ you will receive approximately 80% of the amount. For more detailed information visit [Help for Experts](https://discord.com/channels/1004869688251134033/1009849367760482455). Then enter the maximum time the job will take. Please note that after this period the client can ask for their money back. Send !happy before this time passed.", color=0x0BBAB5)
+                embed = nextcord.Embed(description="Please enter the amount you want the client to pay for your work. For amounts over 40$ you will receive approximately 80% of the amount. For more detailed information visit [Help for Experts](https://discord.com/channels/1004869688251134033/1009849367760482455). Then enter the maximum time the job will take. Please note that after this period the client can ask for their money back. Send !happy before this time passed.", color=0x35C5FF)
                 await ctx.channel.send(embed=embed, view=view)
             else:
                 if status == "c":
-                    embed=nextcord.Embed(description="You can not use !pay twice in a row.", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="You can not use !pay twice in a row.", color=0x35C5FF)
                     await ctx.channel.send(embed=embed)
                 elif status.startswith("c"):
-                    embed=nextcord.Embed(description="Please complete the previous project first.", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="Please complete the previous project first.", color=0x35C5FF)
                     await ctx.channel.send(embed=embed)
                 elif status.startswith("a"):
-                    embed=nextcord.Embed(description="You must first complete the previous project by sending !happy and receiving your payment.", color=0x0BBAB5)
+                    embed=nextcord.Embed(description="You must first complete the previous project by sending !happy and receiving your payment.", color=0x35C5FF)
                     await ctx.channel.send(embed=embed)#
                 else: print(1)
 

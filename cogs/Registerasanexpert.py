@@ -13,9 +13,9 @@ class Registerasanexpert(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def raae(self, ctx):
         await ctx.message.delete()
-        embed1 = nextcord.Embed(description="Experts are the working force behind THAROS.\nAs an Expert you earn money by providing services to your clients.", color=0x0BBAB5)
+        embed1 = nextcord.Embed(description="Experts are the working force behind THAROS.\nAs an Expert you earn money by providing services to your clients.", color=0x35C5FF)
         await ctx.send(embed=embed1)
-        embed2 = nextcord.Embed(description="If you want to register as an Expert at THAROS please read the following information and rules carefully.", color=0x0BBAB5)
+        embed2 = nextcord.Embed(description="If you want to register as an Expert at THAROS please read the following information and rules carefully.", color=0x35C5FF)
         await ctx.send(embed=embed2)
         await ctx.send(file=nextcord.File(r"./cogs/files/Information_for_Experts.pdf"))
         await ctx.send(file=nextcord.File(r"./cogs/files/Rules_for_Experts.pdf"))
@@ -266,12 +266,12 @@ class Registerasanexpert(commands.Cog):
                 Modal1.callback = modal_callback
                 await interaction.response.send_modal(Modal1)
             else:
-                embed=nextcord.Embed(description="Please finish all your projects first and close the related chats.", color=0x0BBAB5)
+                embed=nextcord.Embed(description="Please finish all your projects first and close the related chats.", color=0x35C5FF)
                 await interaction.response.send_message(embed=embed, ephemeral=True)
         button1.callback = button1_callback
         view = View(timeout=None)
         view.add_item(button1)
-        embed = nextcord.Embed(description="Now continue by taking a short test. The first part tests your logical thinking skills.", color=0x0BBAB5)
+        embed = nextcord.Embed(description="Now continue by taking a short test. The first part tests your logical thinking skills.", color=0x35C5FF)
         await ctx.send(embed=embed, view=view)
 
         

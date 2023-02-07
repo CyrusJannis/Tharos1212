@@ -25,7 +25,7 @@ class Verify(commands.Cog):
         button1.callback = button1_callback
         view = View(timeout=None)
         view.add_item(button1)
-        embed = nextcord.Embed(description="Please click this button to accept the terms and conditions for clients and Experts.", color=0x0BBAB5)
+        embed = nextcord.Embed(description="Please click this button to accept the terms and conditions for clients and Experts.", color=0x35C5FF)
         await ctx.send(embed=embed, file=nextcord.File(r"./cogs/files/Terms and Conditions for Clients and Experts.pdf"), view=view)
 
 
