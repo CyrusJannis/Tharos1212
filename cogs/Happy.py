@@ -44,6 +44,9 @@ class Happy(commands.Cog):
                 elif status.startswith("c"):
                     embed=nextcord.Embed(description="You can't use !happy twice in a row.", color=0x35C5FF)
                     await ctx.channel.send(embed=embed)
+                elif status.startswith("f"):
+                    embed=nextcord.Embed(description="The client has asked for their money back because your work time has expired. The execution of !happy is not possible at the moment.", color=0x35C5FF)
+                    await ctx.channel.send(embed=embed)
                 else: print(1)
 
 

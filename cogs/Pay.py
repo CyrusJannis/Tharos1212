@@ -36,7 +36,10 @@ class Pay(commands.Cog):
                     await ctx.channel.send(embed=embed)
                 elif status.startswith("a"):
                     embed=nextcord.Embed(description="You must first complete the previous project by sending !happy and receiving your payment.", color=0x35C5FF)
-                    await ctx.channel.send(embed=embed)#
+                    await ctx.channel.send(embed=embed)
+                elif status.startswith("f"):
+                    embed=nextcord.Embed(description="The client has asked for their money back because your work time has expired. The execution of !pay is not possible at the moment.", color=0x35C5FF)
+                    await ctx.channel.send(embed=embed)
                 else: print(1)
 
 def setup(client):

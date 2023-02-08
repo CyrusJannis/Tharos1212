@@ -208,7 +208,8 @@ async def on_interaction(interaction):
             users = data[str(interaction.message.id)]
             if interaction.user.id in users:
                 can_continue = False
-                await interaction.response.send_message('You have already applied for this job. It is not possible to apply a second time.', ephemeral=True)
+                embed34=nextcord.Embed(description="You have already applied for this job. It is not possible to apply a second time.", color=0x35C5FF)
+                await interaction.response.send_message(embed=embed34, ephemeral=True)
             else:
                 data[str(interaction.message.id)].append(interaction.user.id)
                 can_continue = True
@@ -496,6 +497,11 @@ async def on_interaction(interaction):
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(expertchannel_id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "jpapplicationdelete5":
         message = interaction.message.id
         buttonyes = Button(label="I am sure I want to delete it", style=nextcord.ButtonStyle.red, custom_id="jpclientdelete6")
@@ -546,6 +552,11 @@ async def on_interaction(interaction):
         data[str(interaction.user.id)] = y
         with open("./cogs/db/Clientquitting.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(expertchannel_id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "jpexpertdelete":
         with open("./cogs/db/chats.json", "r") as f:
             data = json.load(f)
@@ -577,6 +588,11 @@ async def on_interaction(interaction):
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(interaction.channel.id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "owcontact":
         with open("./cogs/db/buttoncheck.json", "r") as f:
             data = json.load(f)
@@ -589,14 +605,17 @@ async def on_interaction(interaction):
             users = data[str(interaction.message.id)]
             if interaction.user.id in users:
                 can_continue = False
-                await interaction.response.send_message('You have already contacted the Expert for this work offer. This is not possible twice.', ephemeral=True)
+                embed57=nextcord.Embed(description="You have already contacted the Expert for this work offer. This is not possible twice.", color=0x35C5FF)
+                await interaction.response.send_message(embed=embed57, ephemeral=True)
             else:
                 data[str(interaction.message.id)].append(interaction.user.id)
                 can_continue = True
         with open("./cogs/db/buttoncheck.json", "w") as f:
             json.dump(data, f, indent=4)
         if can_continue == True:
-            await interaction.response.defer()
+            title3 = interaction.message.embeds[0].title
+            embed33=nextcord.Embed(description=f"You are now connected with an Expert for the job offer '{title3}'.", color=0x35C5FF)
+            await interaction.response.send_message(embed=embed33, ephemeral=True)
             with open("./cogs/db/wgzn.json", "r") as f:
                 data = json.load(f)
             expert_id = data[str(interaction.message.id)]
@@ -730,6 +749,11 @@ async def on_interaction(interaction):
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(expertchannel_id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "owexpertdelete":
         buttonyes = Button(label="I am sure I want to delete it", style=nextcord.ButtonStyle.red, custom_id="owexpertdelete2")
         buttonyes.callback = None
@@ -781,6 +805,11 @@ async def on_interaction(interaction):
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(interaction.channel.id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "pay-enter":
         Modal1 = Modal(
             custom_id="pay-modal",
@@ -1029,14 +1058,19 @@ async def on_interaction(interaction):
                 view.add_item(button)
                 embed=nextcord.Embed(description="Please enter the email address associated with your PayPal account to get your money back.", color=0x35C5FF)
                 await interaction.channel.send(embed=embed, view=view)
+                with open("./cogs/db/wasgeht.json", "r") as f:
+                    data = json.load(f)
+                data[str(ecid)] = "f"
+                with open("./cogs/db/wasgeht.json", "w") as f:
+                    json.dump(data, f, indent=4)
             else:
                 await interaction.response.defer()
-                embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert. Please contact the support team.", color=0x35C5FF)
+                embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert. The working time of the Expert has not expired yet.", color=0x35C5FF)
                 await interaction.channel.send(embed=embed)
             print(duration2)
         else:
             await interaction.response.defer()
-            embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert. Please contact the support team.", color=0x35C5FF)
+            embed = nextcord.Embed(description="At this time it is not possible for you to report the Expert.", color=0x35C5FF)
             await interaction.channel.send(embed=embed)
     elif interaction.data["custom_id"] == "money-back":
         msg11  = interaction.message
@@ -1194,6 +1228,11 @@ async def on_interaction(interaction):
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(expertchannel_id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "edeletecom2":
         message = interaction.message.id
         buttonyes = Button(label="I am sure I want to delete it", style=nextcord.ButtonStyle.red, custom_id="edeletecom3")
@@ -1248,6 +1287,11 @@ async def on_interaction(interaction):
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(interaction.channel.id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "happy-cancel":
         await interaction.message.delete()
         with open("./cogs/db/wasgeht.json", "r") as f:
@@ -1275,6 +1319,8 @@ async def on_interaction(interaction):
         Modal1.add_item(email)
         async def modal_callback(interaction):
             await msg3.delete()
+            embed19=nextcord.Embed(description="The client is now asked about his satisfaction. If the client does not answer, you will receive your money within three days.", color=0x35C5FF)
+            await interaction.response.send_message(embed=embed19)
             with open("./cogs/db/3Tage.json", "r") as f:
                 data = json.load(f)
             data[str(interaction.channel.id)] = str(datetime.now())
@@ -1542,6 +1588,11 @@ async def on_interaction(interaction):
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(expertchannel_id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "edeletecom4":
         message = interaction.message.id
         buttonyes = Button(label="I am sure I want to delete it", style=nextcord.ButtonStyle.red, custom_id="edeletecom5")
@@ -1594,6 +1645,11 @@ async def on_interaction(interaction):
         del data[str(clientchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/wasgeht.json", "r") as f:
+            data = json.load(f)
+        del data[str(interaction.channel.id)]
+        with open("./cogs/db/wasgeht.json", "w") as f:
+            json.dump(data, f,  indent=4)
     elif interaction.data["custom_id"] == "happy-nr":
         await interaction.message.delete()
         print(interaction.message.embeds[0])

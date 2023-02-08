@@ -86,7 +86,7 @@ class Offerwork(commands.Cog):
                     embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$\n\nStar rating: {starrating}", color=0x35C5FF)
 
                     #  ---   Contact Button   ---
-                    button1 = Button(label="Contact", style=nextcord.ButtonStyle.green, custom_id="owcontact")
+                    button1 = Button(label="Contact", style=nextcord.ButtonStyle.blurple, custom_id="owcontact")
                     button1.callback = None
                     view2 = View(timeout=None)
                     view2.add_item(button1)

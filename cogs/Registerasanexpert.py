@@ -187,7 +187,7 @@ class Registerasanexpert(commands.Cog):
                                 score += 1
                             if ans10 in right10:
                                 score += 1
-                            if score >= 0:
+                            if score >= 7:
                                 button3 = Button(label="continue", style=nextcord.ButtonStyle.green)
                                 async def button3_callback(interaction):
                                     Modal3 = Modal(
@@ -234,8 +234,10 @@ class Registerasanexpert(commands.Cog):
                                         data[str(interaction.user.id)]["starrating"] = "no reviews"
                                         with open("./cogs/db/experts.json", "w") as f:
                                             json.dump(data, f, indent=4)
-                                        message = await interaction.user.send("To complete the Expert registration, send a photo of the front of your identity card. Please note that for successful registration the following message must include the photo. The verification may take a few hours.")
-                                        await interaction.response.send_message("The last step of your registration takes place in your DMs", ephemeral=True)
+                                        embed14=nextcord.Embed(description="To complete the Expert registration, send a photo of the front of your identity card. Please note that for successful registration the following message must include the photo. The verification may take a few hours.", color=0x35C5FF)
+                                        message = await interaction.user.send(embed=embed14)
+                                        embed13=nextcord.Embed(description="The last step of your registration takes place in your DM's.", color=0x35C5FF)
+                                        await interaction.response.send_message(embed=embed13, ephemeral=True)
                                         image = await self.bot.wait_for("message", check=lambda i: i.author == interaction.user and i.channel.type is nextcord.ChannelType.private)
                                         verify_channel = self.bot.get_channel(1051246577425055844)
                                         btn6 = Button(label="accept", style=nextcord.ButtonStyle.green, custom_id="expertaccept")
@@ -248,21 +250,25 @@ class Registerasanexpert(commands.Cog):
                                             await verify_channel.send(f"{photo}\n{first_name.value}\n{last_name.value}\n{dob.value}\n\n {interaction.user.id}", view=view6)
                                         except:
                                             await verify_channel.send(f"{image.content}\n{first_name.value}\n{last_name.value}\n{dob.value}\n\n {interaction.user.id}", view=view6)
-                                        await interaction.user.send("The photo has been successfully forwarded. Once this has been verified, you are an Expert.")
+                                        embed15=nextcord.Embed(description="The photo has been successfully forwarded. Once this has been verified, you are an Expert.", color=0x35C5FF)
+                                        await interaction.user.send(embed=embed15)
                                     Modal3.callback = modal3_callback
                                     await interaction.response.send_modal(Modal3)
                                 button3.callback = button3_callback
                                 view3  = View(timeout=None)
                                 view3.add_item(button3)
-                                await interaction.response.send_message("Congratulations! You have successfully passed the test. In the next step we need you to enter your personal data.", view=view3, ephemeral=True)
+                                embed11=nextcord.Embed(description="Congratulations! You have successfully passed the test. In the next step we need you to enter your personal data.", color=0x35C5FF)
+                                await interaction.response.send_message(embed=embed11, view=view3, ephemeral=True)
                             else:
-                                await interaction.response.send_message("Unfortunately, you did not pass the test. Try again at any time.", ephemeral=True)
+                                embed12=nextcord.Embed(description="Unfortunately, you did not pass the test. Try again at any time.", color=0x35C5FF)
+                                await interaction.response.send_message(embed=embed12, ephemeral=True)
                         Modal2.callback = modal2_callback
                         await interaction.response.send_modal(Modal2)
                     button2.callback = button2_callback
                     view2 = View(timeout=None)
                     view2.add_item(button2)
-                    await interaction.response.send_message("Now take the second part of the test. This tests your knowledge of the rules and information for Experts.", view=view2, ephemeral=True)
+                    embed10=nextcord.Embed(description="Now take the second part of the test. This tests your knowledge of the rules and information for Experts.", color=0x35C5FF)
+                    await interaction.response.send_message(embed=embed10, view=view2, ephemeral=True)
                 Modal1.callback = modal_callback
                 await interaction.response.send_modal(Modal1)
             else:
