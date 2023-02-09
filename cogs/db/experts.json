@@ -17,8 +17,16 @@
     },
     "990380208383221760": {
         "firstname": "Daniel",
-        "lastname": "Dietrich",
-        "dateofbirth": "ffffffffff",
+        "lastname": "Longschlong",
+        "dateofbirth": "28.28.2828",
+        "jobsdone": 0,
+        "reviews": 0,
+        "starrating": "no reviews"
+    },
+    "1034198848635150426": {
+        "firstname": "Daniel",
+        "lastname": "Longschlong",
+        "dateofbirth": "12.12.1212",
         "jobsdone": 0,
         "reviews": 0,
         "starrating": "no reviews"

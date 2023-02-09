@@ -384,8 +384,14 @@ async def on_interaction(interaction):
         with open("./cogs/db/Expertquitting.json", "w") as f:
             json.dump(data, f, indent=4)
         await user.remove_roles(role)
-        await user.send("You are now successfully registered with THAROS as an Expert")
+        embed22 = nextcord.Embed(description="You are now successfully registered with THAROS as an Expert.", color=0x35C5FF)
+        await user.send(embed=embed22)
         await interaction.message.delete()
+        with open("./cogs/db/raaebutton.json", "r") as f:
+            data = json.load(f)
+        del data[str(user.id)]
+        with open("./cogs/db/raaebutton.json", "w") as f:
+            json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "expertdeny":
         contents = interaction.message.content.split(" ")
         id = contents[1]
@@ -394,8 +400,14 @@ async def on_interaction(interaction):
         del data[str(id)]
         with open("./cogs/db/experts.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/raaebutton.json", "r") as f:
+            data = json.load(f)
+        del data[str(id)]
+        with open("./cogs/db/raaebutton.json", "w") as f:
+            json.dump(data, f, indent=4)
         user = await interaction.guild.fetch_member(int(id))
-        await user.send("Your registration as an Expert has been rejected. You can try again at any time")
+        embed17=nextcord.Embed(description="Your registration as an Expert has been rejected. You can try again at any time.", color=0x35C5FF)
+        await user.send(embed=embed17)
         await interaction.message.delete()
     elif interaction.data["custom_id"] == "jpapplicationaccept":
         with open("./cogs/db/chats.json", "r") as f:
@@ -687,7 +699,7 @@ async def on_interaction(interaction):
             button3.callback = None
             view2 = View(timeout=None)
             view2.add_item(button3)
-            embed2 = nextcord.Embed(description="You can now chat with the client. Please follow the rules, which you can find under [rules for Experts](https://discord.com/channels/1004869688251134033/1009830178211504148)", color=0x35C5FF)
+            embed2 = nextcord.Embed(description="You can now chat with the client. Please follow the rules, which you can find under [rules for Experts](https://discord.com/channels/1004869688251134033/1009830178211504148).", color=0x35C5FF)
             qq = await owexpertchannel.send(embed=embed2, view=view2)
             embed2 = nextcord.Embed(
                 description="Quick guide:\nAfter you have reached an agreement with the client, you can send them the invoice using the command !pay. When the client has paid, you will recieve a confirmation and you can start working. When you are done, hand over the work to the client and ask for their opinion with the command !happy. If the client is satisfied, you recieve the money and the client leaves you a star rating.\n\nYou can find more information here: [help for experts](https://discord.com/channels/1004869688251134033/1009849367760482455)",
@@ -745,6 +757,8 @@ async def on_interaction(interaction):
         data[str(interaction.user.id)] = y
         with open("./cogs/db/Clientquitting.json", "w") as f:
             json.dump(data, f, indent=4)
+        with open("./cogs/db/chats.json", "r") as f:
+            data = json.load(f)
         del data[str(interaction.channel.id)]
         del data[str(expertchannel_id)]
         with open("./cogs/db/chats.json", "w") as f:

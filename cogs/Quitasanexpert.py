@@ -10,7 +10,7 @@ class Quitasanexpert(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def qaae(self, ctx):
         await ctx.message.delete()
-        button1 = Button(label="Quit", style=nextcord.ButtonStyle.green, custom_id="qaae")
+        button1 = Button(label="Quit", style=nextcord.ButtonStyle.red, custom_id="qaae")
         button1.callback = None
         view = View(timeout=None)
         view.add_item(button1)
