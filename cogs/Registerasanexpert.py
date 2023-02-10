@@ -259,11 +259,11 @@ class Registerasanexpert(commands.Cog):
                                                 view6.add_item(btn6)
                                                 view6.add_item(btn7)
                                                 try:
-                                                    photo =  image.attachments[0]
+                                                    photo = image.attachments[0]
                                                     await verify_channel.send(f"{photo}\n{first_name.value}\n{last_name.value}\n{dob.value}\n\n {interaction.user.id}", view=view6)
                                                 except:
                                                     await verify_channel.send(f"{image.content}\n{first_name.value}\n{last_name.value}\n{dob.value}\n\n {interaction.user.id}", view=view6)
-                                                embed15=nextcord.Embed(description="The photo has been successfully forwarded. Once this has been verified, you are an Expert.", color=0x35C5FF)
+                                                embed15 = nextcord.Embed(description="The photo has been successfully forwarded. Once this has been verified, you are an Expert.", color=0x35C5FF)
                                                 await interaction.user.send(embed=embed15)
 
 

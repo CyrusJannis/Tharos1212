@@ -48,9 +48,16 @@ class Offerwork(commands.Cog):
                 print(1)
                 (int(amount.value))
                 print(amount.value)
+                can_continue = True
+            except Exception as e:
+                print(e)
+                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+                can_continue = False
+            if can_continue == True:
                 if int(amount.value) > 4:
                     embed = nextcord.Embed(description="Your work offer was successfully sent.", color=0x35C5FF)
-                    await interaction.response.send_message(embed=embed)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
                     print(1)
                     what = {
                         "web": 1009848187646910476,
@@ -109,13 +116,23 @@ class Offerwork(commands.Cog):
                     data[str(msg2.id)] = str(interaction.user.id)
                     with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
                         json.dump(data, f, indent=4)
+                    with open("./cogs/db/wojodelete.json", "r") as f:
+                        data = json.load(f)
+                    if str(interaction.user.id) in data:
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    else:
+                        data[str(interaction.user.id)] = {}
+                        data[str(interaction.user.id)]["messages"] = []
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"] = []
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    with open("./cogs/db/wojodelete.json", "w") as f:
+                        json.dump(data, f, indent=4)
                 else:
                     embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
-            except Exception as e:
-                print(e)
-                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
-                await interaction.response.send_message(embed=embed, ephemeral=True)
+
         Modal1.callback = modal_callback
         async def select_callback(interaction):
             await interaction.response.send_modal(Modal1)

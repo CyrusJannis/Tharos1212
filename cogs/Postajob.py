@@ -8,7 +8,7 @@ class Postajob(commands.Cog):
     def __init__(self, client):
         self.bot = client
 
-    @commands.command(pass_context=True)
+    @commands.command()
     @commands.has_permissions(administrator=True)
     async def postajob(self, ctx):
         await ctx.message.delete()
@@ -46,6 +46,12 @@ class Postajob(commands.Cog):
         async def modal_callback(interaction):
             try:
                 (int(amount.value))
+                can_continue = True
+            except:
+                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+                can_continue = False
+            if can_continue == True:
                 if int(amount.value) > 4:
                     what = {
                         "web": 1009849070933782560,
@@ -60,7 +66,6 @@ class Postajob(commands.Cog):
                     }
                     channel = self.bot.get_channel(what[select.values[0]])
                     embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$", color=0x35C5FF)
-
                     #  ---   Contact Button   ---
                     button1 = Button(label="Contact", style=nextcord.ButtonStyle.blurple, custom_id="jocontact")
                     button1.callback = None
@@ -85,14 +90,24 @@ class Postajob(commands.Cog):
                     data[str(msg2.id)] = str(interaction.user.id)
                     with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
                         json.dump(data, f, indent=4)
+                    with open("./cogs/db/wojodelete.json", "r") as f:
+                        data = json.load(f)
+                    if str(interaction.user.id) in data:
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    else:
+                        data[str(interaction.user.id)] = {}
+                        data[str(interaction.user.id)]["messages"] = []
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"] = []
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    with open("./cogs/db/wojodelete.json", "w") as f:
+                        json.dump(data, f, indent=4)
                     embed77 = nextcord.Embed(description="Your job has been successfully posted.", color=0x35C5FF)
                     await interaction.response.send_message(embed=embed77, ephemeral=True)
                 else:
                     embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
-            except:
-                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
-                await interaction.response.send_message(embed=embed, ephemeral=True)
         Modal1.callback = modal_callback
         async def select_callback(interaction):
             await interaction.response.send_modal(Modal1)

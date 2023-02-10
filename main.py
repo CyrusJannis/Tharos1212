@@ -197,22 +197,20 @@ async def on_interaction(interaction):
     if str(interaction.type) == "InteractionType.application_command":
         return
     if interaction.data["custom_id"] == "jocontact":
+        inter = interaction
         with open("./cogs/db/buttoncheck.json", "r") as f:
             data = json.load(f)
         id  = interaction.user.id
-        if str(interaction.message.id) not in data:
-            data[str(interaction.message.id)] = []
-            data[str(interaction.message.id)].append(interaction.user.id)
-            can_continue = True
-        else:
+        if str(interaction.message.id) in data:
             users = data[str(interaction.message.id)]
             if interaction.user.id in users:
                 can_continue = False
-                embed34=nextcord.Embed(description="You have already applied for this job. It is not possible to apply a second time.", color=0x35C5FF)
+                embed34 = nextcord.Embed(description="You have already applied for this job. It is not possible to apply a second time.", color=0x35C5FF)
                 await interaction.response.send_message(embed=embed34, ephemeral=True)
             else:
-                data[str(interaction.message.id)].append(interaction.user.id)
                 can_continue = True
+        else:
+            can_continue = True
         with open("./cogs/db/buttoncheck.json", "w") as f:
             json.dump(data, f, indent=4)
         if can_continue == True:
@@ -233,96 +231,114 @@ async def on_interaction(interaction):
                 application = nextcord.ui.TextInput(label="Tell the client a few words about yourself", min_length=50, max_length=1000, required=True, placeholder=" ~ Application ~ ", style=nextcord.TextInputStyle.paragraph)
                 Modal2.add_item(application)
                 async def modal2_callback(interaction):
-                    embed9 = nextcord.Embed(description=f"Your application for the job '{title}' has been successfully sent. As soon as the client accepts it, you can chat with them.", color=0x35C5FF)
-                    await interaction.response.send_message(embed=embed9, ephemeral=True)
-                    await msg7.delete()
-                    category = interaction.guild.get_channel(1009811084380753941)
-                    jpclientchannel = await category.create_text_channel(title)
-                    await jpclientchannel.set_permissions(
-                        interaction.guild.get_member(int(client_id)),
-                        view_channel = True,
-                        send_messages = False,
-                        read_messages = True
-                    )
-                    category = interaction.guild.get_channel(1009828164928807012)
-                    jpexpertchannel = await category.create_text_channel(title)
-                    perms = jpexpertchannel.overwrites_for(interaction.guild.get_member(int(interaction.user.id)))
-                    perms.view_channel = False
-                    await jpexpertchannel.set_permissions(interaction.guild.get_member(int(interaction.user.id)), overwrite=perms)
-                    with open("./cogs/db/wasgeht.json", "r") as f:
+                    with open("./cogs/db/buttoncheck.json", "r") as f:
                         data = json.load(f)
-                    data[str(jpexpertchannel.id)] = "b"
-                    with open("./cogs/db/wasgeht.json", "w") as f:
-                        json.dump(data, f, indent=4)
-                    with open("./cogs/db/chats.json", "r") as f:
-                        data = json.load(f)
-                    data[str(jpexpertchannel.id)] = {}
-                    data[str(jpexpertchannel.id)]["connect"] = jpclientchannel.id
-                    data[str(jpexpertchannel.id)]["owner"] = interaction.user.id
-                    data[str(jpclientchannel.id)]  = {}
-                    data[str(jpclientchannel.id)]["connect"] = jpexpertchannel.id
-                    data[str(jpclientchannel.id)]["owner"] = client_id
-                    with open("./cogs/db/chats.json", "w") as f:
-                        json.dump(data, f, indent=4)
-                    with open("./cogs/db/payments.json", "r") as f:
-                        data = json.load(f)
-                    data[str(jpexpertchannel.id)] = {}
-                    data[str(jpexpertchannel.id)]["client"] = client_id
-                    data[str(jpexpertchannel.id)]["expert"] = interaction.user.id
-                    data[str(jpexpertchannel.id)]["n"] = 0
-                    with open("./cogs/db/payments.json", "w") as f:
-                        json.dump(data, f, indent=4)
-                    embed = nextcord.Embed(description=f"An Expert has sent you an application for '{title}'. Find it under 'my Experts'.\n[View the channel](https://discord.com/channels/{interaction.guild.id}/{jpclientchannel.id})", color=0x35C5FF)
-                    await interaction.guild.get_member(int(client_id)).send(embed=embed)
-                    btn = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jpapplicationdelete2")
-                    btn.callback = None
-                    view6 = View(timeout=None)
-                    view6.add_item(btn)
-                    embed = nextcord.Embed(description="You can now chat with the client. Please follow the rules, which you can find under [rules for Experts](https://discord.com/channels/1004869688251134033/1009830178211504148).\n\nIf you click on 'delete', the channel will be deleted. Please note, that after deleting, the communication can not be restored.", color=0x35C5FF)
-                    qq = await jpexpertchannel.send(embed=embed, view=view6)
-                    embed2 = nextcord.Embed(description="Quick guide:\nAfter you have reached an agreement with the client, you can send them the invoice using the command !pay. When the client has paid, you will recieve a confirmation and you can start working. When you are done, hand over the work to the client and ask for their opinion with the command !happy. If the client is satisfied, you recieve the money and the client leaves you a star rating.\n\nYou can find more information here: [help for experts](https://discord.com/channels/1004869688251134033/1009849367760482455)", color=0x35C5FF)
-                    await jpexpertchannel.send(embed=embed2)
-                    with open("./cogs/db/experts.json", "r") as f:
-                        data = json.load(f)
-                    rating = data[str(interaction.user.id)]["starrating"]
-                    if rating == "no reviews":
-                        starrating = "no reviews"
-                    else:
-                        rounded_rating = round(rating)
-                        if rounded_rating == 0:
-                            starrating = "zero stars"
-                        elif rounded_rating == 1:
-                                starrating = "⭐"
-                        elif rounded_rating == 2:
-                                starrating = "⭐⭐"
-                        elif rounded_rating == 3:
-                                starrating = "⭐⭐⭐"
-                        elif rounded_rating == 4:
-                                starrating = "⭐⭐⭐⭐"
+                    if str(inter.message.id) in data:
+                        users = data[str(inter.message.id)]
+                        if interaction.user.id in users:
+                            embed34 = nextcord.Embed(description="You have already applied for this job. It is not possible to apply a second time.", color=0x35C5FF)
+                            await interaction.response.send_message(embed=embed34, ephemeral=True)
+                            can_continue2 = False
                         else:
-                            starrating = "⭐⭐⭐⭐⭐"
-                    button12 = Button(label="Accept", style=nextcord.ButtonStyle.green, custom_id="jpapplicationaccept")
-                    button13 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jpapplicationdelete1")
-                    button13.callback = None
-                    button12.callback = None
-                    view55 = View(timeout=None)
-                    view55.add_item(button12)
-                    view55.add_item(button13)
-                    embed3 = nextcord.Embed(description=f"{application.value}\n\nExpert's star review: {starrating}\n\nIf you accept the Expert, then you can chat with them. If you click on 'delete', the channel will be deleted. This function is also available after accepting. Please note, that after deleting, the communication can not be restored.", color=0x35C5FF)
-                    mm = await jpclientchannel.send(embed=embed3, view=view55)
-                    with open("./cogs/db/delete-in-der-communication.json", "r") as f:
-                        data = json.load(f)
-                    data[str(jpclientchannel.id)] = str(mm.id)
-                    data[str(jpexpertchannel.id)] = str(qq.id)
-                    with open("./cogs/db/delete-in-der-communication.json", "w") as f:
-                        json.dump(data, f, indent=4)
+                            data[str(inter.message.id)].append(inter.user.id)
+                            can_continue2 = True
+                    else:
+                        data[str(inter.message.id)] = []
+                        data[str(inter.message.id)].append(inter.user.id)
+                        can_continue2 = True
+                    if can_continue2 == True:
+                        with open("./cogs/db/buttoncheck.json", "w") as f:
+                            json.dump(data, f, indent=4)
+                        embed9 = nextcord.Embed(description=f"Your application for the job '{title}' has been successfully sent. As soon as the client accepts it, you can chat with them.", color=0x35C5FF)
+                        await interaction.response.send_message(embed=embed9, ephemeral=True)
+                        await msg7.delete()
+                        category = interaction.guild.get_channel(1009811084380753941)
+                        jpclientchannel = await category.create_text_channel(title)
+                        await jpclientchannel.set_permissions(
+                            interaction.guild.get_member(int(client_id)),
+                            view_channel = True,
+                            send_messages = False,
+                            read_messages = True
+                        )
+                        category = interaction.guild.get_channel(1009828164928807012)
+                        jpexpertchannel = await category.create_text_channel(title)
+                        perms = jpexpertchannel.overwrites_for(interaction.guild.get_member(int(interaction.user.id)))
+                        perms.view_channel = False
+                        await jpexpertchannel.set_permissions(interaction.guild.get_member(int(interaction.user.id)), overwrite=perms)
+                        with open("./cogs/db/wasgeht.json", "r") as f:
+                            data = json.load(f)
+                        data[str(jpexpertchannel.id)] = "b"
+                        with open("./cogs/db/wasgeht.json", "w") as f:
+                            json.dump(data, f, indent=4)
+                        with open("./cogs/db/chats.json", "r") as f:
+                            data = json.load(f)
+                        data[str(jpexpertchannel.id)] = {}
+                        data[str(jpexpertchannel.id)]["connect"] = jpclientchannel.id
+                        data[str(jpexpertchannel.id)]["owner"] = interaction.user.id
+                        data[str(jpclientchannel.id)]  = {}
+                        data[str(jpclientchannel.id)]["connect"] = jpexpertchannel.id
+                        data[str(jpclientchannel.id)]["owner"] = client_id
+                        with open("./cogs/db/chats.json", "w") as f:
+                            json.dump(data, f, indent=4)
+                        with open("./cogs/db/payments.json", "r") as f:
+                            data = json.load(f)
+                        data[str(jpexpertchannel.id)] = {}
+                        data[str(jpexpertchannel.id)]["client"] = client_id
+                        data[str(jpexpertchannel.id)]["expert"] = interaction.user.id
+                        data[str(jpexpertchannel.id)]["n"] = 0
+                        with open("./cogs/db/payments.json", "w") as f:
+                            json.dump(data, f, indent=4)
+                        embed = nextcord.Embed(description=f"An Expert has sent you an application for '{title}'. Find it under 'my Experts'.\n[View the channel](https://discord.com/channels/{interaction.guild.id}/{jpclientchannel.id})", color=0x35C5FF)
+                        await interaction.guild.get_member(int(client_id)).send(embed=embed)
+                        btn = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jpapplicationdelete2")
+                        btn.callback = None
+                        view6 = View(timeout=None)
+                        view6.add_item(btn)
+                        embed = nextcord.Embed(description="You can now chat with the client. Please follow the rules, which you can find under [rules for Experts](https://discord.com/channels/1004869688251134033/1009830178211504148).\n\nIf you click on 'delete', the channel will be deleted. Please note, that after deleting, the communication can not be restored.", color=0x35C5FF)
+                        qq = await jpexpertchannel.send(embed=embed, view=view6)
+                        embed2 = nextcord.Embed(description="Quick guide:\nAfter you have reached an agreement with the client, you can send them the invoice using the command !pay. When the client has paid, you will recieve a confirmation and you can start working. When you are done, hand over the work to the client and ask for their opinion with the command !happy. If the client is satisfied, you recieve the money and the client leaves you a star rating.\n\nYou can find more information here: [help for experts](https://discord.com/channels/1004869688251134033/1009849367760482455)", color=0x35C5FF)
+                        await jpexpertchannel.send(embed=embed2)
+                        with open("./cogs/db/experts.json", "r") as f:
+                            data = json.load(f)
+                        rating = data[str(interaction.user.id)]["starrating"]
+                        if rating == "no reviews":
+                            starrating = "no reviews"
+                        else:
+                            rounded_rating = round(rating)
+                            if rounded_rating == 0:
+                                starrating = "zero stars"
+                            elif rounded_rating == 1:
+                                    starrating = "⭐"
+                            elif rounded_rating == 2:
+                                    starrating = "⭐⭐"
+                            elif rounded_rating == 3:
+                                    starrating = "⭐⭐⭐"
+                            elif rounded_rating == 4:
+                                    starrating = "⭐⭐⭐⭐"
+                            else:
+                                starrating = "⭐⭐⭐⭐⭐"
+                        button12 = Button(label="Accept", style=nextcord.ButtonStyle.green, custom_id="jpapplicationaccept")
+                        button13 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jpapplicationdelete1")
+                        button13.callback = None
+                        button12.callback = None
+                        view55 = View(timeout=None)
+                        view55.add_item(button12)
+                        view55.add_item(button13)
+                        embed3 = nextcord.Embed(description=f"{application.value}\n\nExpert's star review: {starrating}\n\nIf you accept the Expert, then you can chat with them. If you click on 'delete', the channel will be deleted. This function is also available after accepting. Please note, that after deleting, the communication can not be restored.", color=0x35C5FF)
+                        mm = await jpclientchannel.send(embed=embed3, view=view55)
+                        with open("./cogs/db/delete-in-der-communication.json", "r") as f:
+                            data = json.load(f)
+                        data[str(jpclientchannel.id)] = str(mm.id)
+                        data[str(jpexpertchannel.id)] = str(qq.id)
+                        with open("./cogs/db/delete-in-der-communication.json", "w") as f:
+                            json.dump(data, f, indent=4)
                 Modal2.callback = modal2_callback
                 await interaction.response.send_modal(modal=Modal2)
             button99.callback = btn99_callback
             view3 = View(timeout=None)
             view3.add_item(button99)
-            embed = nextcord.Embed(description="To apply for this job offer, tell the client a few words about yourself. Most importantly, tell them what qualifies you for this job.", colour=0x35C5FF)
-            msg7 = await interaction.response.send_message(embed=embed, view=view3, ephemeral=True)
+            embed = nextcord.Embed(description="To apply for this job offer, tell the client a few words about yourself. Most importantly, tell them what qualifies you for this job.", color=0x35C5FF)
+            msg7 = await inter.response.send_message(embed=embed, view=view3, ephemeral=True)
     elif interaction.data["custom_id"] == "jodelete":
         #               -----                          
         with open("./cogs/db/delete_messages.json", "r") as f:
@@ -391,6 +407,23 @@ async def on_interaction(interaction):
             data = json.load(f)
         del data[str(user.id)]
         with open("./cogs/db/raaebutton.json", "w") as f:
+            json.dump(data, f, indent=4)
+        with open("./cogs/db/wojodelete.json", "r") as f:
+            data = json.load(f)
+        if str(user.id) in data:
+            msgids = data[str(user.id)]["messages"]
+            channelids = data[str(user.id)]["channels"]
+            for i in range(len(msgids)):
+                msgid = msgids[i]
+                channelid = channelids[i]
+                channel2 = client.get_channel(int(channelid))
+                post = await channel2.fetch_message(int(msgid))
+                try:
+                    await post.delete()
+                except:
+                    print("Message was already deleted")
+            del data[str(user.id)]
+        with open("./cogs/db/wojodelete.json", "w") as f:
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "expertdeny":
         contents = interaction.message.content.split(" ")
@@ -501,7 +534,7 @@ async def on_interaction(interaction):
         expertchannel = client.get_channel(int(expertchannel_id))
         expertid = data[str(expertchannel_id)]["owner"]
         expert = interaction.guild.get_member(expertid)
-        embed244 = nextcord.Embed(description=f"A client has broken off communication with you on the subject '{interaction.channel.name}'. The project is therefore terminated.", color=0x35C5FF)
+        embed244 = nextcord.Embed(description=f"A client has rejected your application for the job '{interaction.channel.name}'.", color=0x35C5FF)
         await expert.send(embed=embed244)
         await interaction.channel.delete()
         await expertchannel.delete()
@@ -903,8 +936,8 @@ async def on_interaction(interaction):
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": "https://www.paypal.com/",
-                "cancel_url": "https://www.paypal.com/"},
+                "return_url": "https://tharos.eu/success",
+                "cancel_url": "https://paypal.com/"},
             "transactions": [{
                 "item_list": {
                     "items": [{
@@ -2133,6 +2166,23 @@ async def on_interaction(interaction):
                 data = json.load(f)
             del data[str(interaction.user.id)]
             with open("./cogs/db/Expertquitting.json", "w") as f:
+                json.dump(data, f, indent=4)
+            with open("./cogs/db/wojodelete.json", "r") as f:
+                data = json.load(f)
+            if str(interaction.user.id) in data:
+                msgids = data[str(interaction.user.id)]["messages"]
+                channelids = data[str(interaction.user.id)]["channels"]
+                for i in range(len(msgids)):
+                    msgid = msgids[i]
+                    channelid = channelids[i]
+                    channel2 = client.get_channel(int(channelid))
+                    post = await channel2.fetch_message(int(msgid))
+                    try:
+                        await post.delete()
+                    except:
+                        print("Message was already deleted")
+                del data[str(interaction.user.id)]
+            with open("./cogs/db/wojodelete.json", "w") as f:
                 json.dump(data, f, indent=4)
         else:
             embed=nextcord.Embed(description="Please complete all your orders first and delete the respective channels.", color=0x35C5FF)

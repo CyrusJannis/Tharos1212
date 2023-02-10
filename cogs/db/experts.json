@@ -1,34 +1,10 @@
 {
-    "1036029240631644260": {
-        "firstname": "Owomuvuevuew",
-        "lastname": "Eyetuenwewe",
-        "dateofbirth": "11.11.1111",
-        "jobsdone": 0,
-        "reviews": 0,
-        "starrating": "no reviews"
-    },
-    "798143180758974465": {
-        "firstname": "Daniel",
-        "lastname": "Dietrich",
-        "dateofbirth": "11.11.1111",
-        "jobsdone": 19,
-        "reviews": 19,
-        "starrating": 2.7552631578947366
-    },
     "990380208383221760": {
-        "firstname": "Daniel",
-        "lastname": "Longschlong",
-        "dateofbirth": "28.28.2828",
-        "jobsdone": 0,
-        "reviews": 0,
-        "starrating": "no reviews"
-    },
-    "1034198848635150426": {
-        "firstname": "Daniel",
-        "lastname": "Longschlong",
+        "firstname": "Jannis",
+        "lastname": "Schnabelbertus",
         "dateofbirth": "12.12.1212",
-        "jobsdone": 0,
-        "reviews": 0,
-        "starrating": "no reviews"
+        "jobsdone": 1,
+        "reviews": 1,
+        "starrating": 5
     }
 }
