@@ -3,9 +3,9 @@
         "firstname": "Daniel",
         "lastname": "Dietrich",
         "dateofbirth": "xuxuxuxuxu",
-        "jobsdone": 1,
-        "reviews": 1,
-        "starrating": 5
+        "jobsdone": 3,
+        "reviews": 2,
+        "starrating": 5.0
     },
     "798143180758974465": {
         "firstname": "daniel",
