@@ -2,12 +2,13 @@ import nextcord
 from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands, tasks
 import json
+import numpy as np
 import paypalrestsdk
 from paypalrestsdk import Payout, ResourceNotFound
 paypalrestsdk.configure({
-    "mode": "sandbox", # sandbox or live
-    "client_id": "AQLta8aNGOi8dfCVbjUd9Y82xS5PdJvzOIH1gzZsxITUM3iv4bun0REqLNDFtB9r1F9gYp7RGp5lkT2G",
-    "client_secret": "ENTqRZ5neHrGVl-onoI7KBmpneyH3kLUmC1aZKGpPNJQAvwEuemJV60k98_Nw6M9iEp1qrHxUamhcaZ5"
+    "mode": "live", # sandbox or live
+    "client_id": "AZxRq6TAbztTjaR-0undNkgw91RVhAnC-A7JWUC3fIg7mxWKMBgujGeeOSQMzjWx7NH91Zt32R8Qyk2g",
+    "client_secret": "EMEQhbuPOWiBA6DpVsWhd0ABT0VNo4Fg1ce7I-YTPKzjmuYYFF-0Pq0BQEYTEOs4dfkUS-Td0VX-5Jz7"
 })
 import asyncio
 import random
@@ -389,7 +390,7 @@ async def on_interaction(interaction):
         except Exception as e:
             print(e)
         contents = interaction.message.content.split(" ")
-        id = contents[1]
+        id = contents[-1]
         user = await interaction.guild.fetch_member(int(id))
         role = discord.utils.get(client.get_guild(1004869688251134033).roles, id=1004884670745411595)
         await user.add_roles(role)
@@ -427,7 +428,7 @@ async def on_interaction(interaction):
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "expertdeny":
         contents = interaction.message.content.split(" ")
-        id = contents[1]
+        id = contents[-1]
         with open("./cogs/db/experts.json", "r") as f:
             data = json.load(f)
         del data[str(id)]
@@ -547,6 +548,9 @@ async def on_interaction(interaction):
         del data[str(expertchannel_id)]
         with open("./cogs/db/wasgeht.json", "w") as f:
             json.dump(data, f,  indent=4)
+        with open("./cogs/db/buttoncheck.json", "r") as f:
+            data = json.load(f)
+        
     elif interaction.data["custom_id"] == "jpapplicationdelete5":
         message = interaction.message.id
         buttonyes = Button(label="I am sure I want to delete it", style=nextcord.ButtonStyle.red, custom_id="jpclientdelete6")
@@ -936,7 +940,7 @@ async def on_interaction(interaction):
                 "payment_method": "paypal"
             },
             "redirect_urls": {
-                "return_url": "https://tharos.eu/success",
+                "return_url": "https://tharos.eu/index.php/payment-successful/",
                 "cancel_url": "https://paypal.com/"},
             "transactions": [{
                 "item_list": {
@@ -1356,7 +1360,7 @@ async def on_interaction(interaction):
         await interaction.response.send_message(embed=embed, view=view)
     elif interaction.data["custom_id"] == "happy-enter":
         msg3 = interaction.message
-        Modal1 = Modal( 
+        Modal1 = Modal(
             custom_id="happy-paypal",
             title="Payment Information",
             timeout=None,
@@ -1366,7 +1370,7 @@ async def on_interaction(interaction):
         Modal1.add_item(email)
         async def modal_callback(interaction):
             await msg3.delete()
-            embed19=nextcord.Embed(description="The client is now asked about his satisfaction. If the client does not answer, you will receive your money within three days.", color=0x35C5FF)
+            embed19=nextcord.Embed(description="The client is now asked about their satisfaction. If the client does not answer, you will receive your money within three days.", color=0x35C5FF)
             await interaction.response.send_message(embed=embed19)
             with open("./cogs/db/3Tage.json", "r") as f:
                 data = json.load(f)
@@ -2259,8 +2263,476 @@ async def on_interaction(interaction):
         del data[str(interaction.channel.id)]
         with open("./cogs/db/nureinsupportchannel.json", "w") as f:
             json.dump(data, f, indent=4)
+    elif interaction.data["custom_id"] == "verify999":
+        print("11")
+        role = discord.utils.get(interaction.guild.roles, id=1005230473599008898)
+        await interaction.user.add_roles(role)
+        await interaction.response.send_message("You now have the role of a client", ephemeral=True)
+        with open("./cogs/db/Clientquitting.json", "r") as f:
+            data = json.load(f)
+        data[str(interaction.user.id)] = 0
+        with open("./cogs/db/Clientquitting.json", "w") as f:
+            json.dump(data, f, indent=4)
+    elif interaction.data["custom_id"] == "raae1k9":
+        button2 = Button(label="do the test", style=nextcord.ButtonStyle.green)
+        async def button2_callback(interaction):
+            with open("./cogs/db/Clientquitting.json", "r") as f:
+                data = json.load(f)
+            x = data[str(interaction.user.id)]
+            if x == 0:
+                numbers = list(np.random.permutation(np.arange(1,17))[:5])
+                Modal1 = Modal(
+                    custom_id="modal",
+                    title="Please fill out the test",
+                    timeout=60,            
+                )
+                with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/eqs_questions.json", "r") as f:
+                    data = json.load(f)
+                que_1 = data[f"{numbers[0]}l"]
+                input_que_1 = nextcord.ui.TextInput(
+                    label=f"{que_1['f']}",
+                    min_length=1,
+                    max_length=50,
+                    required=True,
+                    placeholder="",
+                    style=nextcord.TextInputStyle.short
+                )
+                que_2 = data[f"{numbers[1]}l"]
+                input_que_2 = nextcord.ui.TextInput(
+                    label=f"{que_2['f']}",
+                    min_length=1,
+                    max_length=50,
+                    required=True,
+                    placeholder="",
+                    style=nextcord.TextInputStyle.short
+                )
+                que_3 = data[f"{numbers[2]}l"]
+                input_que_3 = nextcord.ui.TextInput(
+                    label=f"{que_3['f']}",
+                    min_length=1,
+                    max_length=50,
+                    required=True,
+                    placeholder="",
+                    style=nextcord.TextInputStyle.short
+                )
+                que_4 = data[f"{numbers[3]}l"]
+                input_que_4 = nextcord.ui.TextInput(
+                    label=f"{que_4['f']}",
+                    min_length=1,
+                    max_length=50,
+                    required=True,
+                    placeholder="",
+                    style=nextcord.TextInputStyle.short
+                )
+                que_5 = data[f"{numbers[4]}l"]
+                input_que_5 = nextcord.ui.TextInput(
+                    label=f"{que_5['f']}",
+                    min_length=1,
+                    max_length=50,
+                    required=True,
+                    placeholder="",
+                    style=nextcord.TextInputStyle.short
+                )
+                Modal1.add_item(input_que_1)
+                Modal1.add_item(input_que_2)
+                Modal1.add_item(input_que_3)
+                Modal1.add_item(input_que_4)
+                Modal1.add_item(input_que_5)
+                async def modal_callback(interaction):
+                    print(1)
+                    button2 = Button(label="continue the test", style=nextcord.ButtonStyle.green)
+                    async def button2_callback(interaction):
+                        global score
+                        score = 0
+                        ans1 = input_que_1.value
+                        right1 = que_1["right"]
+                        ans2 = input_que_2.value
+                        right2 = que_2["right"]
+                        ans3 = input_que_3.value
+                        right3 = que_3["right"]
+                        ans4 = input_que_4.value
+                        right4 = que_4["right"]
+                        ans5 = input_que_5.value
+                        right5 = que_5["right"]
+                        if ans1 in right1:
+                            score += 1
+                        if ans2 in right2:
+                            score += 1
+                        if ans3 in right3:
+                            score += 1
+                        if ans4 in right4:
+                            score += 1
+                        if ans5 in right5:
+                            score += 1
+                        numbers = list(np.random.permutation(np.arange(1,6))[:5])
+                        Modal2 = Modal(
+                            custom_id="modal",
+                            title="Please fill out the test",
+                            timeout=60, 
+                        )
+                        que_6 = data[f"{numbers[0]}r"]
+                        input_que_6 = nextcord.ui.TextInput(
+                            label=f"{que_6['f']}",
+                            min_length=1,
+                            max_length=50,
+                            required=True,
+                            placeholder="",
+                            style=nextcord.TextInputStyle.short
+                        )
+                        que_7 = data[f"{numbers[1]}r"]
+                        input_que_7 = nextcord.ui.TextInput(
+                            label=f"{que_7['f']}",
+                            min_length=1,
+                            max_length=50,
+                            required=True,
+                            placeholder="",
+                            style=nextcord.TextInputStyle.short
+                        )
+                        que_8 = data[f"{numbers[2]}r"]
+                        input_que_8 = nextcord.ui.TextInput(
+                            label=f"{que_8['f']}",
+                            min_length=1,
+                            max_length=50,
+                            required=True,
+                            placeholder="",
+                            style=nextcord.TextInputStyle.short
+                        )
+                        que_9 = data[f"{numbers[3]}r"]
+                        input_que_9 = nextcord.ui.TextInput(
+                            label=f"{que_9['f']}",
+                            min_length=1,
+                            max_length=50,
+                            required=True,
+                            placeholder="",
+                            style=nextcord.TextInputStyle.short
+                        )
+                        que_10 = data[f"{numbers[4]}r"]
+                        input_que_10 = nextcord.ui.TextInput(
+                            label=f"{que_10['f']}",
+                            min_length=1,
+                            max_length=50,
+                            required=True,
+                            placeholder="",
+                            style=nextcord.TextInputStyle.short
+                        )
+                        Modal2.add_item(input_que_6)
+                        Modal2.add_item(input_que_7)
+                        Modal2.add_item(input_que_8)
+                        Modal2.add_item(input_que_9)
+                        Modal2.add_item(input_que_10)
+                        async def modal2_callback(interaction):
+                            global score
+                            ans6 = input_que_6.value
+                            right6 = que_6["right"]
+                            ans7 = input_que_7.value
+                            right7 = que_7["right"]
+                            ans8 = input_que_8.value
+                            right8 = que_8["right"]
+                            ans9 = input_que_9.value
+                            right9 = que_9["right"]
+                            ans10 = input_que_10.value
+                            right10 = que_10["right"]
+                            if ans6 in right6:
+                                score += 1
+                            if ans7 in right7:
+                                score += 1
+                            if ans8 in right8:
+                                score += 1
+                            if ans9 in right9:
+                                score += 1
+                            if ans10 in right10:
+                                score += 1
+                            if score >= 7:
+                                button3 = Button(label="continue", style=nextcord.ButtonStyle.green)
+                                async def button3_callback(interaction):
+                                    Modal3 = Modal(
+                                        custom_id="modal",
+                                        title="Please enter your personal data.",
+                                        timeout=None, 
+                                    )
+                                    first_name = nextcord.ui.TextInput(
+                                        label="first name",
+                                        min_length=1,
+                                        max_length=30,
+                                        required=True,
+                                        placeholder="",
+                                        style=nextcord.TextInputStyle.short
+                                    )
+                                    last_name = nextcord.ui.TextInput(
+                                        label="last name",
+                                        min_length=1,
+                                        max_length=30,
+                                        required=True,
+                                        placeholder="",
+                                        style=nextcord.TextInputStyle.short
+                                    )
+                                    dob = nextcord.ui.TextInput(
+                                        label="date of birth",
+                                        min_length=8,
+                                        max_length=10,
+                                        required=True,
+                                        placeholder="",
+                                        style=nextcord.TextInputStyle.short
+                                    )
+                                    Modal3.add_item(first_name)
+                                    Modal3.add_item(last_name)
+                                    Modal3.add_item(dob)
+                                    async def modal3_callback(interaction):
+                                        with open("./cogs/db/raaebutton.json", "r") as f:
+                                            data = json.load(f)
+                                        if str(interaction.user.id) in data:
+                                            embed16=nextcord.Embed(description="You have already applied to be an Expert. Please wait for the registration process to be completed.", color=0x35C5FF)
+                                            await interaction.response.send_message(embed=embed16, ephemeral=True)
+                                        else:
+                                            with open("./cogs/db/raaebutton.json", "r") as f:
+                                                data = json.load(f)
+                                            data[str(interaction.user.id)] = "1"
+                                            with open("./cogs/db/raaebutton.json", "w") as f:
+                                                json.dump(data, f, indent=4)
+                                            with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/experts.json", "r") as f:
+                                                data = json.load(f)
+                                            data[str(interaction.user.id)] = {}
+                                            data[str(interaction.user.id)]["firstname"] = first_name.value
+                                            data[str(interaction.user.id)]["lastname"] = last_name.value
+                                            data[str(interaction.user.id)]["dateofbirth"] = dob.value
+                                            data[str(interaction.user.id)]["jobsdone"] = 0
+                                            data[str(interaction.user.id)]["reviews"] = 0
+                                            data[str(interaction.user.id)]["starrating"] = "no reviews"
+                                            with open("./cogs/db/experts.json", "w") as f:
+                                                json.dump(data, f, indent=4)
+                                            embed14=nextcord.Embed(description="To complete the Expert registration, send a photo of the front of your identity card. Please note that for a successful registration the following message must contain the photo. The verification may take a few hours.", color=0x35C5FF)
+                                            message = await interaction.user.send(embed=embed14)
+                                            embed13=nextcord.Embed(description="The last step of your registration takes place in your DM's.", color=0x35C5FF)
+                                            await interaction.response.send_message(embed=embed13, ephemeral=True)
+                                            image = await client.wait_for("message", check=lambda i: i.author == interaction.user and i.channel.type is nextcord.ChannelType.private)
+                                            verify_channel = client.get_channel(1051246577425055844)
+                                            btn6 = Button(label="accept", style=nextcord.ButtonStyle.green, custom_id="expertaccept")
+                                            btn7 = Button(label="deny", style=nextcord.ButtonStyle.red, custom_id="expertdeny")
+                                            view6 = View(timeout=None)
+                                            view6.add_item(btn6)
+                                            view6.add_item(btn7)
+                                            try:
+                                                photo = image.attachments[0]
+                                                await verify_channel.send(f"{photo}\n{first_name.value}\n{last_name.value}\n{dob.value}\n\n {interaction.user.id}", view=view6)
+                                            except:
+                                                await verify_channel.send(f"{image.content}\n{first_name.value}\n{last_name.value}\n{dob.value}\n\n {interaction.user.id}", view=view6)
+                                            embed15 = nextcord.Embed(description="The photo has been successfully forwarded. Once this has been verified, you are an Expert.", color=0x35C5FF)
+                                            await interaction.user.send(embed=embed15)
 
 
+                                    Modal3.callback = modal3_callback
+                                    await interaction.response.send_modal(Modal3)
+                                button3.callback = button3_callback
+                                view3  = View(timeout=None)
+                                view3.add_item(button3)
+                                embed11=nextcord.Embed(description="Congratulations! You have successfully passed the test. In the next step we need you to enter your personal data.", color=0x35C5FF)
+                                await interaction.response.send_message(embed=embed11, view=view3, ephemeral=True)
+                            else:
+                                embed12=nextcord.Embed(description="Unfortunately, you did not pass the test. Try again at any time.", color=0x35C5FF)
+                                await interaction.response.send_message(embed=embed12, ephemeral=True)
+                        Modal2.callback = modal2_callback
+                        await interaction.response.send_modal(Modal2)
+                    button2.callback = button2_callback
+                    view2 = View(timeout=None)
+                    view2.add_item(button2)
+                    embed10=nextcord.Embed(description="Now take the second part of the test. This tests your knowledge of the rules and information for Experts.", color=0x35C5FF)
+                    await interaction.response.send_message(embed=embed10, view=view2, ephemeral=True)
+                Modal1.callback = modal_callback
+                await interaction.response.send_modal(Modal1)
+            else:
+                embed=nextcord.Embed(description="Please finish all your projects first and close the related chats.", color=0x35C5FF)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+        button2.callback = button2_callback
+        view2 = View(timeout=None)
+        view2.add_item(button2)
+        embed = nextcord.Embed(description="Please note that it is prohibited to to bypass the THAROS payment system. For violation of this rule an Expert can be banned.", color=0x35C5FF)
+        await interaction.response.send_message(embed=embed, view=view2, ephemeral=True)
+    elif interaction.data["custom_id"] == "postajob00":
+        inter = interaction
+        #  ---   1.  Modal (Job post)   ---
+        Modal1 = Modal(
+            custom_id="modal",
+            title="To post the job, fill out the form below.",
+            timeout=None,            
+        )
+        tit = nextcord.ui.TextInput(label="job title", min_length=5, max_length=100, required=True, placeholder="e.g. write a book for me", style=nextcord.TextInputStyle.short)
+        Modal1.add_item(tit)
+        desc = nextcord.ui.TextInput(label="description", min_length=20, max_length=1000, required=True, placeholder="e.g. the book should be about ...", style=nextcord.TextInputStyle.paragraph)
+        Modal1.add_item(desc)
+        amount =  nextcord.ui.TextInput(label="approximate payment in USD $", min_length=1, max_length=4, required=True, placeholder="e.g. 30", style=nextcord.TextInputStyle.short)
+        Modal1.add_item(amount)
+        async def modal_callback(interaction):
+            try:
+                (int(amount.value))
+                can_continue = True
+            except:
+                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+                can_continue = False
+            if can_continue == True:
+                if int(amount.value) > 4:
+                    what = {
+                        "web": 1009849070933782560,
+                        "apps": 1009849089883635723,
+                        "oso":  1009849120879558847,
+                        "des": 1009849133470851072,
+                        "ma": 1009849146594824294,
+                        "wr": 1009849160054345792,
+                        "phvi": 1009849206904717352,
+                        "aud": 1009849220502650960,
+                        "other": 1009849240517869568
+                    }
+                    channel = client.get_channel(what[inter.data["values"][0]])
+                    embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$", color=0x35C5FF)
+                    #  ---   Contact Button   ---
+                    button1 = Button(label="Contact", style=nextcord.ButtonStyle.blurple, custom_id="jocontact")
+                    button1.callback = None
+                    view2 = View(timeout=None)
+                    view2.add_item(button1)
+                    msg2 = await channel.send(embed=embed, view=view2)
+                    button2 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jodelete", disabled=False)
+                    view3 = View(timeout=None)
+                    view3.add_item(button2)
+                    embed2 = nextcord.Embed(description=f"You have made the following job posting:\n\n{tit.value}\n{desc.value}\n\nYou can delete this job at any time.", color=0x35C5FF)
+                    msg = await interaction.user.send(embed=embed2, view=view3)
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "r") as f:
+                        data = json.load(f)
+                    data[msg.id] = {}
+                    data[msg.id]["1"] = msg2.id
+                    data[msg.id]["2"] = channel.id
+                    data[msg.id]["3"] = "no"           
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "w") as f:
+                        json.dump(data, f, indent=4)
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "r") as f:
+                        data = json.load(f)
+                    data[str(msg2.id)] = str(interaction.user.id)
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
+                        json.dump(data, f, indent=4)
+                    with open("./cogs/db/wojodelete.json", "r") as f:
+                        data = json.load(f)
+                    if str(interaction.user.id) in data:
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    else:
+                        data[str(interaction.user.id)] = {}
+                        data[str(interaction.user.id)]["messages"] = []
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"] = []
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    with open("./cogs/db/wojodelete.json", "w") as f:
+                        json.dump(data, f, indent=4)
+                    embed77 = nextcord.Embed(description="Your job has been successfully posted.", color=0x35C5FF)
+                    await interaction.response.send_message(embed=embed77, ephemeral=True)
+                else:
+                    embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
+        Modal1.callback = modal_callback
+        await interaction.response.send_modal(Modal1)
+    elif interaction.data["custom_id"] == "postajob222":
+        inter = interaction
+        #  ---   1.  Modal (Job post)   ---
+        Modal1 = Modal(
+            custom_id="modal",
+            title="To offer your work, fill out the form below.",
+            timeout=None,            
+        )
+        tit = nextcord.ui.TextInput(label="service title", min_length=5, max_length=100, required=True, placeholder="e.g. I will write a book for you", style=nextcord.TextInputStyle.short)
+        Modal1.add_item(tit)
+        desc = nextcord.ui.TextInput(label="description", min_length=20, max_length=1000, required=True, placeholder="e.g. I can write novels, ...", style=nextcord.TextInputStyle.paragraph)
+        Modal1.add_item(desc)
+        amount =  nextcord.ui.TextInput(label="approximate price in USD $", min_length=1, max_length=4, required=True, placeholder="e.g. 30", style=nextcord.TextInputStyle.short)
+        Modal1.add_item(amount)
+        async def modal_callback(interaction):
+            try:
+                print(1)
+                (int(amount.value))
+                print(amount.value)
+                can_continue = True
+            except Exception as e:
+                print(e)
+                embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+                can_continue = False
+            if can_continue == True:
+                if int(amount.value) > 4:
+                    embed = nextcord.Embed(description="Your work offer was successfully sent.", color=0x35C5FF)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
+                    print(1)
+                    what = {
+                        "web": 1009848187646910476,
+                        "apps": 1009848261303087115,
+                        "oso":  1009848445693083690,
+                        "des": 1009848723435683990,
+                        "ma": 1009848740628144200,
+                        "wr": 1009848703110098954,
+                        "phvi": 1009848510872559807,
+                        "aud": 1009848466568138862,
+                        "other": 1009848764925759632
+                    }
+                    with open("./cogs/db/experts.json", "r") as f:
+                        data = json.load(f)
+                    rating = data[str(interaction.user.id)]["starrating"]
+                    if rating == "no reviews":
+                        starrating = "no reviews"
+                    else:
+                        rounded_rating = round(rating)
+                        if rounded_rating == 0:
+                            starrating = "zero stars"
+                        elif rounded_rating == 1:
+                                starrating = "⭐"
+                        elif rounded_rating == 2:
+                                starrating = "⭐⭐"
+                        elif rounded_rating == 3:
+                                starrating = "⭐⭐⭐"
+                        elif rounded_rating == 4:
+                                starrating = "⭐⭐⭐⭐"
+                        else:
+                            starrating = "⭐⭐⭐⭐⭐"
+                    channel = client.get_channel(what[inter.data["values"][0]])
+                    embed = nextcord.Embed(title=tit.value, description=f"{desc.value}\n\n{amount.value}$\n\nStar rating: {starrating}", color=0x35C5FF)
+
+                    #  ---   Contact Button   ---
+                    button1 = Button(label="Contact", style=nextcord.ButtonStyle.blurple, custom_id="owcontact")
+                    button1.callback = None
+                    view2 = View(timeout=None)
+                    view2.add_item(button1)
+                    msg2 = await channel.send(embed=embed, view=view2)
+                    button2 = Button(label="Delete", style=nextcord.ButtonStyle.red, custom_id="jodelete", disabled=False)
+                    view3 = View(timeout=None)
+                    view3.add_item(button2)
+                    embed = nextcord.Embed(description=f"You have made the following work offer:\n\n{tit.value}\n{desc.value}\n\nYou can delete this offer at any time.", color=0x35C5FF)
+                    msg = await interaction.user.send(embed=embed, view=view3)
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "r") as f:
+                        data = json.load(f)
+                    data[msg.id] = {}
+                    data[msg.id]["1"] = msg2.id
+                    data[msg.id]["2"] = channel.id
+                    data[msg.id]["3"] = "no"
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/delete_messages.json", "w") as f:
+                        json.dump(data, f, indent=4)
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "r") as f:
+                        data = json.load(f)
+                    data[str(msg2.id)] = str(interaction.user.id)
+                    with open("C:/Users/Jannis Dietrich/OneDrive/Dokumente/...tharos/cogs/db/wgzn.json", "w") as f:
+                        json.dump(data, f, indent=4)
+                    with open("./cogs/db/wojodelete.json", "r") as f:
+                        data = json.load(f)
+                    if str(interaction.user.id) in data:
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    else:
+                        data[str(interaction.user.id)] = {}
+                        data[str(interaction.user.id)]["messages"] = []
+                        data[str(interaction.user.id)]["messages"].append(str(msg2.id))
+                        data[str(interaction.user.id)]["channels"] = []
+                        data[str(interaction.user.id)]["channels"].append(str(channel.id))
+                    with open("./cogs/db/wojodelete.json", "w") as f:
+                        json.dump(data, f, indent=4)
+                else:
+                    embed = nextcord.Embed(description="The amount has to be an integer which is at least five. Please try again.", color=0x35C5FF)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
+        Modal1.callback = modal_callback
+        await interaction.response.send_modal(Modal1)
         
 
 
