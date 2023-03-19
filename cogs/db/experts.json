@@ -1,18 +1,1 @@
-{
-    "990380208383221760": {
-        "firstname": "Daniel",
-        "lastname": "Dietrich",
-        "dateofbirth": "xuxuxuxuxu",
-        "jobsdone": 3,
-        "reviews": 2,
-        "starrating": 5.0
-    },
-    "798143180758974465": {
-        "firstname": "daniel",
-        "lastname": "friedrich",
-        "dateofbirth": "123123123",
-        "jobsdone": 0,
-        "reviews": 0,
-        "starrating": "no reviews"
-    }
-}
+{}

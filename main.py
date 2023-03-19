@@ -6,9 +6,9 @@ import numpy as np
 import paypalrestsdk
 from paypalrestsdk import Payout, ResourceNotFound
 paypalrestsdk.configure({
-    "mode": "sandbox", # sandbox or live
-    "client_id": "AfCGzxhK6rwCh9ZtSZcrwP39gYtxu6yhcOMmLvzF0fO-4ZzKnC9ROKAh78aB6ked4WnqM2ca8-Px0EXM",
-    "client_secret": "EI4JV6BL5pt_L-HuEk0e0qzwGzHidNGosxpC0fXIUJNsPKGYNmpq2-kr_UoQbkT20T3SX76sVV-Whrj6"
+    "mode": "live", # sandbox or live
+    "client_id": "REDACTED_PAYPAL_CLIENT_ID",
+    "client_secret": "REDACTED_PAYPAL_SECRET"
 })
 import asyncio
 import random
@@ -104,7 +104,7 @@ async def on_ready():
                 new_amount = 90*(int(amount) * 92 / 100 - 0.49) / 100
                 amount2 = round(new_amount, 2)
                 pchannel = client.get_channel(1086726507814195340)
-                embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email}\nAmount: {amount2}\n\n\n{echannelid}")
+                embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email}\nAmount: {amount2}\n\n\n{echannelid}", color=0x35C5FF)
                 worked = Button(label="Payment Worked", style=nextcord.ButtonStyle.green, custom_id="payment_worked")
                 didnt_work = Button(label="Payment Failed", style=nextcord.ButtonStyle.red, custom_id="payment_didnt_work")
                 view = View()
@@ -1072,14 +1072,14 @@ async def on_interaction(interaction):
             print(new_amount)
             print(email.value)
             pchannel = client.get_channel(1086726507814195340)
-            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{ecid}")
+            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{ecid}", color=0x35C5FF)
             worked = Button(label="Payment Worked", style=nextcord.ButtonStyle.green, custom_id="payment_worked2")
             didnt_work = Button(label="Payment Failed", style=nextcord.ButtonStyle.red, custom_id="payment_didnt_work2")
             view = View()
             view.add_item(worked)
             view.add_item(didnt_work)
             await pchannel.send(embed=embed, view=view)
-            embed2 = nextcord.Embed(description="The payment is now being processed. You will get your money back within 24 hours.")
+            embed2 = nextcord.Embed(description="The payment is now being processed. You will get your money back within 24 hours.", color=0x35C5FF)
             await interaction.channel.send(embed=embed2)
         Modal1.callback = modal_callback
         await interaction.response.send_modal(modal=Modal1)
@@ -1366,14 +1366,14 @@ async def on_interaction(interaction):
             new_amount = int(amount) * 92 / 100 - 0.49
             amount2 = round(new_amount, 2)
             pchannel = client.get_channel(1086726507814195340)
-            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{ecid}")
+            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{ecid}", color=0x35C5FF)
             worked = Button(label="Payment Worked", style=nextcord.ButtonStyle.green, custom_id="payment_worked3")
             didnt_work = Button(label="Payment Failed", style=nextcord.ButtonStyle.red, custom_id="payment_didnt_work3")
             view = View()
             view.add_item(worked)
             view.add_item(didnt_work)
             await pchannel.send(embed=embed, view=view)
-            embed2 = nextcord.Embed(description="The payment is now being processed. You will get your money back within 24 hours.")
+            embed2 = nextcord.Embed(description="The payment is now being processed. You will get your money back within 24 hours.", color=0x35C5FF)
             await interaction.channel.send(embed=embed2)
         Modal1.callback = modal_callback
         await interaction.response.send_modal(modal=Modal1)
@@ -1641,14 +1641,14 @@ async def on_interaction(interaction):
         new_amount = 90*(int(amount) * 92 / 100 - 0.49) / 100
         amount2 = round(new_amount, 2)
         pchannel = client.get_channel(1086726507814195340)
-        embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email}\nAmount: {amount2}\n\n\n{echannelid}")
+        embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email}\nAmount: {amount2}\n\n\n{echannelid}", color=0x35C5FF)
         worked = Button(label="Payment Worked", style=nextcord.ButtonStyle.green, custom_id="payment_worked4")
         didnt_work = Button(label="Payment Failed", style=nextcord.ButtonStyle.red, custom_id="payment_didnt_work4")
         view = View()
         view.add_item(worked)
         view.add_item(didnt_work)
         await pchannel.send(embed=embed, view=view)
-        embed2 = nextcord.Embed(description="The client has rated your work as satisfactory. The payment is now being processed. You will receive your money within 24 hours.")
+        embed2 = nextcord.Embed(description="The client has rated your work as satisfactory. The payment is now being processed. You will receive your money within 24 hours.", color=0x35C5FF)
         echannel = client.get_channel(echannelid)
         await echannel.send(embed=embed2)
     elif interaction.data["custom_id"] == "enter7":
@@ -1669,14 +1669,14 @@ async def on_interaction(interaction):
             new_amount = 90*(int(amount) * 92 / 100 - 0.49) / 100
             amount2 = round(new_amount, 2)
             pchannel = client.get_channel(1086726507814195340)
-            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{echannelid}")
+            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{echannelid}", color=0x35C5FF)
             worked = Button(label="Payment Worked", style=nextcord.ButtonStyle.green, custom_id="payment_worked5")
             didnt_work = Button(label="Payment Failed", style=nextcord.ButtonStyle.red, custom_id="payment_didnt_work5")
             view = View()
             view.add_item(worked)
             view.add_item(didnt_work)
             await pchannel.send(embed=embed, view=view)
-            embed2 = nextcord.Embed(description="The payment is now being processed. You will receive your money within 24 hours.")
+            embed2 = nextcord.Embed(description="The payment is now being processed. You will receive your money within 24 hours.", color=0x35C5FF)
             echannel = client.get_channel(echannelid)
             await echannel.send(embed=embed2)
         Modal2.callback = modal_callback
@@ -1701,14 +1701,14 @@ async def on_interaction(interaction):
             new_amount = 90*(int(amount) * 92 / 100 - 0.49) / 100
             amount2 = round(new_amount, 2)
             pchannel = client.get_channel(1086726507814195340)
-            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{echannelid}")
+            embed = nextcord.Embed(title="ZAHLUNG", description=f"Receiver: {email.value}\nAmount: {amount2}\n\n\n{echannelid}", color=0x35C5FF)
             worked = Button(label="Payment Worked", style=nextcord.ButtonStyle.green, custom_id="payment_worked6")
             didnt_work = Button(label="Payment Failed", style=nextcord.ButtonStyle.red, custom_id="payment_didnt_work6")
             view = View()
             view.add_item(worked)
             view.add_item(didnt_work)
             await pchannel.send(embed=embed, view=view)
-            embed2 = nextcord.Embed(description="The payment is now being processed. You will receive your money within 24 hours.")
+            embed2 = nextcord.Embed(description="The payment is now being processed. You will receive your money within 24 hours.", color=0x35C5FF)
             echannel = client.get_channel(echannelid)
             await echannel.send(embed=embed2)
         Modal7.callback = modal_callback
@@ -2296,6 +2296,15 @@ async def on_interaction(interaction):
         Modal1.callback = modal_callback
         await interaction.response.send_modal(Modal1)
     elif interaction.data["custom_id"] == "payment_worked":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_worked"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         echannelid = split[1]
         await interaction.message.delete()
@@ -2359,6 +2368,15 @@ async def on_interaction(interaction):
         with open("./cogs/db/delete-in-der-communication.json", "w") as f:
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "payment_didnt_work":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_didnt_work"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         echannelid = split[1]
         with open("./cogs/db/chats.json", "r") as f:
@@ -2373,6 +2391,15 @@ async def on_interaction(interaction):
         echannel = client.get_channel(int(echannelid))
         await echannel.send(embed=embed, view=view)
     elif interaction.data["custom_id"] == "payment_worked2":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_worked"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         ecid = split[1]
         with open("./cogs/db/chats.json", "r") as f:
@@ -2429,6 +2456,15 @@ async def on_interaction(interaction):
         with open("./cogs/db/delete-in-der-communication.json", "w") as f:
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "payment_didnt_work2":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_didnt_work"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         ecid = split[1]
         with open("./cogs/db/chats.json", "r") as f:
@@ -2443,6 +2479,15 @@ async def on_interaction(interaction):
         cchannel = client.get_channel(int(ccid))
         await cchannel.send(embed=embed, view=view)
     elif interaction.data["custom_id"] == "payment_worked3":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_worked"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         ecid = split[1]
         with open("./cogs/db/chats.json", "r") as f:
@@ -2499,6 +2544,15 @@ async def on_interaction(interaction):
         with open("./cogs/db/delete-in-der-communication.json", "w") as f:
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "payment_didnt_work3":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_didnt_work"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         ecid = split[1]
         with open("./cogs/db/chats.json", "r") as f:
@@ -2513,6 +2567,15 @@ async def on_interaction(interaction):
         cchannel = client.get_channel(ccid)
         await cchannel.send(embed=embed, view=view)
     elif interaction.data["custom_id"] == "payment_worked4":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_worked"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         echannelid = split[1]
         with open("./cogs/db/chats.json", "r") as f:
@@ -2576,19 +2639,37 @@ async def on_interaction(interaction):
         with open("./cogs/db/delete-in-der-communication.json", "w") as f:
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "payment_didnt_work4":
-            split = interaction.message.embeds[0].description.split("\n\n\n")
-            echannelid = split[1]
-            await interaction.message.delete()
-            button=Button(label="Enter", style=nextcord.ButtonStyle.blurple, custom_id="enter7")
-            button.callback = None
-            view=View(timeout=None)
-            view.add_item(button)
-            with open("./cogs/db/chats.json", "r") as f:
-                data = json.load(f)
-            echannel = client.get_channel(int(echannelid))
-            embed = nextcord.Embed(description="The payment did not work. Please enter a valid email address which is associated with your PayPal account.", color=0x35C5FF)
-            await echannel.send(embed=embed, view=view)
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_didnt_work"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
+        split = interaction.message.embeds[0].description.split("\n\n\n")
+        echannelid = split[1]
+        await interaction.message.delete()
+        button=Button(label="Enter", style=nextcord.ButtonStyle.blurple, custom_id="enter7")
+        button.callback = None
+        view=View(timeout=None)
+        view.add_item(button)
+        with open("./cogs/db/chats.json", "r") as f:
+            data = json.load(f)
+        echannel = client.get_channel(int(echannelid))
+        embed = nextcord.Embed(description="The payment did not work. Please enter a valid email address which is associated with your PayPal account.", color=0x35C5FF)
+        await echannel.send(embed=embed, view=view)
     elif interaction.data["custom_id"] == "payment_worked5":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_worked"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         echannelid = split[1]
         await interaction.message.delete()
@@ -2652,6 +2733,15 @@ async def on_interaction(interaction):
         with open("./cogs/db/delete-in-der-communication.json", "w") as f:
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "payment_didnt_work5":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_didnt_work"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         echannelid = split[1]
         await interaction.message.delete()
@@ -2663,6 +2753,15 @@ async def on_interaction(interaction):
         embed=nextcord.Embed(description="The payment did not work. Please enter a valid email address which is associated with your PayPal account.", color=0x35C5FF)
         await echannel.send(embed=embed, view=view)
     elif interaction.data["custom_id"] == "payment_worked6":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_worked"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         echannelid = split[1]
         with open("./cogs/db/chats.json", "r") as f:
@@ -2729,6 +2828,15 @@ async def on_interaction(interaction):
         with open("./cogs/db/delete-in-der-communication.json", "w") as f:
             json.dump(data, f, indent=4)
     elif interaction.data["custom_id"] == "payment_didnt_work6":
+        split2 = interaction.message.embeds[0].description.split("\n")
+        with open("./cogs/db/manualpayments.json", "r") as f:
+            data = json.load(f)
+        data[str(datetime.now())] = {}
+        data[str(datetime.now())]["receiver"] = split2[0]
+        data[str(datetime.now())]["amount"] = split2[1]
+        data[str(datetime.now())]["button selected"] = "payment_didnt_work"
+        with open("./cogs/db/manualpayments.json", "w") as f:
+            json.dump(data, f, indent=4)
         split = interaction.message.embeds[0].description.split("\n\n\n")
         echannelid = split[1]
         await interaction.message.delete()   
