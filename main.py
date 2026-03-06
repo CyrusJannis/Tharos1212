@@ -1,3 +1,7 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 import nextcord
 from nextcord.ui import Select, View, Button, Modal
 from nextcord.ext import commands, tasks
@@ -7,12 +11,11 @@ import paypalrestsdk
 from paypalrestsdk import Payout, ResourceNotFound
 paypalrestsdk.configure({
     "mode": "live", # sandbox or live
-    "client_id": "REDACTED_PAYPAL_CLIENT_ID",
-    "client_secret": "REDACTED_PAYPAL_SECRET"
+    "client_id": os.environ.get("PAYPAL_CLIENT_ID"),
+    "client_secret": os.environ.get("PAYPAL_CLIENT_SECRET")
 })
 import asyncio
 import random
-import os
 import discord.utils
 import deepl
 import time
@@ -2928,7 +2931,7 @@ async def on_message(message):
 
 @client.command()
 async def translate(ctx, lang, *, prompt):
-    auth_key = "REDACTED_DEEPL_KEY"
+    auth_key = os.environ.get("DEEPL_AUTH_KEY")
     translator = deepl.Translator(auth_key)
     result = translator.translate_text(prompt, target_lang=lang)
     await ctx.send(result.text)
@@ -3012,4 +3015,4 @@ for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         client.load_extension(f"cogs.{filename[:-3]}")
 
-client.run("REDACTED_DISCORD_TOKEN")
+client.run(os.environ.get("DISCORD_BOT_TOKEN"))

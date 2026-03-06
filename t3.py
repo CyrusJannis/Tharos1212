@@ -1,7 +1,9 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 import openai
 
-openai.api_key = "REDACTED_OPENAI_KEY"
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 prompt = input("Enter prompt\n> ")
 
 response = openai.Completion.create(
